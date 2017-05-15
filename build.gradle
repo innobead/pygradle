@@ -28,7 +28,7 @@ dependencies {
 }
 
 group = "com.innobead"
-version = "1.0.3"
+version = "1.0.4"
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
@@ -67,5 +67,15 @@ pluginBundle {
             id = 'com.innobead.python'
             displayName = 'Build, test Python in sandbox with Gradle'
         }
+    }
+}
+
+afterEvaluate {
+    def publishKey = System.getenv("gradlePublishKey")
+    def publishSecret = System.getenv("gradlePublishSecret")
+
+    if (publishKey && publishSecret) {
+        System.properties.setProperty("gradle.publish.key", publishKey)
+        System.properties.setProperty("gradle.publish.secret", publishSecret)
     }
 }
