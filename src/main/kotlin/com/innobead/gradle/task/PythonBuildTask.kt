@@ -19,17 +19,23 @@ class PythonBuildTask : DefaultTask() {
         project.extensions.pythonPluginExtension.virtualenvDir
     }
 
+    val pythonBuildDir by lazy {
+        project.extensions.pythonPluginExtension.pythonBuildDir
+    }
+
     init {
         description = "Build Python package using setup.py"
 
         project.afterEvaluate {
-            dependsOn.add(project.tasks.getByName(PythonRuntimeTask::class.taskName))
+            dependsOn.add(project.tasks.getByName(PythonDependenciesTask::class.taskName))
             project.getTasksByName("build", false).firstOrNull()?.dependsOn(this)
         }
     }
 
     @TaskAction
     fun action() {
+        val commands = mutableListOf("pip install wheel")
+
         when {
             project.file("setup.py").exists() -> {
                 logger.lifecycle("Building package based on setup.py")
@@ -44,11 +50,13 @@ class PythonBuildTask : DefaultTask() {
                     }
                 }
 
+                commands.add("python ${project.file("setup.py").path} $distType")
+
                 project.exec {
-                    it.workingDir(project.buildDir)
+                    it.workingDir(pythonBuildDir)
                     it.commandLine(listOf(
                             "bash", "-c",
-                            "source $virtualenvDir/bin/activate; python setup.py $distType"
+                            "source $virtualenvDir/bin/activate; ${commands.joinToString(";")}"
                     ))
                 }.rethrowFailure()
             }

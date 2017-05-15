@@ -27,14 +27,20 @@ class PythonDependenciesTask : DefaultTask() {
 
     @TaskAction
     fun action() {
+        if (!project.file("requirements.txt").exists()) {
+            logger.lifecycle("Ignored to install dependencies, because requirements.txt not found")
+            return
+        }
+
         logger.lifecycle("Installing dependencies in requirements.txt")
 
         project.exec {
             it.commandLine(listOf(
                     "bash", "-c",
-                    "source ${virtualenvDir}/bin/activate; pip install -r requirements.txt"
+                    "source $virtualenvDir/bin/activate; pip install -r requirements.txt"
             ))
         }.rethrowFailure()
+
 
         val libsDir = File(project.buildDir, "libs")
         libsDir.mkdirs()

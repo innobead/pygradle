@@ -42,6 +42,14 @@ class PythonPluginExtension(val project: Project) {
             return dir
         }
 
+    var pythonBuildDir: File? = null
+        get() {
+            val dir = field ?: project.file(File(project.buildDir, "python-build"))
+            dir.mkdirs()
+
+            return dir
+        }
+
     var testReportDir: File? = null
         get() {
             val dir = field ?: project.file(File(project.buildDir, "testReports"))
