@@ -30,7 +30,7 @@ buildscript {
 
 apply plugin: "com.innobead.python"
 
-python.sourceDirs = files('api', 'PlatformAdapter')
+python.sourceDirs = files('src')
 python.testSourceDirs = files('tests')
 ```
 
