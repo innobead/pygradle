@@ -1,4 +1,4 @@
-[![Travis CI](https://travis-ci.org/innobead/pygradle.svg?branch=master)](https://travis-ci.org/innobead/pygradle)
+[![Travis CI](https://travis-ci.org/innobead/pygradle.svg)](https://travis-ci.org/innobead/pygradle)
 
 # Goals
 Create a simple Ptyhon Gradle Plugin to build and test Python project in a sandbox. 
@@ -24,7 +24,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.com.innobead:gradle-python-plugin:1.0.6"
+        classpath "gradle.plugin.com.innobead:gradle-python-plugin:1.0.7"
     }
 }
 
