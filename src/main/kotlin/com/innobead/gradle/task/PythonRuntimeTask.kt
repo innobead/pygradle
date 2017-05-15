@@ -25,16 +25,17 @@ class PythonRuntimeTask : DefaultTask() {
     fun action() {
         val commands = mutableListOf<String>()
 
-        logger.lifecycle("Installing pip")
-
         project.exec {
+            it.isIgnoreExitValue = true
             it.executable("bash")
             it.args("-c", "which pip > /dev/null 2>&1")
         }.exitValue.also {
+            logger.lifecycle("Installing pip")
+
             if (it != 0) {
                 commands.addAll(listOf(
                         "curl -OL https://bootstrap.pypa.io/get-pip.py",
-                        "python get-pip.py --prefix $pythonDir",
+                        "python get-pip.py -I --prefix $pythonDir",
                         "rm get-pip.py",
                         "export PYTHONPATH='$pythonDir/lib/python2.7/site-packages:\$PYTHONPATH'",
                         "export PATH='$pythonDir/bin:\$PATH'"
@@ -42,11 +43,13 @@ class PythonRuntimeTask : DefaultTask() {
             }
         }
 
-        logger.lifecycle("Installing virtualenv and creating an environment")
         project.exec {
+            it.isIgnoreExitValue = true
             it.executable("bash")
             it.args("-c", "which virtualenv > /dev/null 2>&1")
         }.exitValue.also {
+            logger.lifecycle("Installing virtualenv")
+
             when (it) {
                 0 -> {
                     commands.addAll(listOf(
@@ -55,16 +58,18 @@ class PythonRuntimeTask : DefaultTask() {
                 }
                 else -> {
                     commands.addAll(listOf(
-                            "pip install --no-cache-dir virtualenv --prefix $pythonDir",
+                            "pip install virtualenv -I --prefix $pythonDir",
                             "$pythonDir/bin/virtualenv $virtualenvDir"
                     ))
                 }
             }
         }
 
+        logger.lifecycle("Creating an environment")
         project.exec {
             it.workingDir(project.extensions.pythonPluginExtension.tmpDir)
             it.executable("bash")
+            it.environment(System.getenv())
             it.args(listOf(
                     "-c",
                     commands.joinToString(";")
