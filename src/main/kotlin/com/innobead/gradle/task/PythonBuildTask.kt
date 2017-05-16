@@ -12,7 +12,7 @@ import org.gradle.api.tasks.TaskAction
 class PythonBuildTask : DefaultTask() {
 
     companion object {
-        val distTypeSupports = listOf("bdist_wheel", "sdist", "bdist_wheel --universal")
+        val distTypeSupports = listOf("sdist", "bdist_wheel", "bdist_wheel --universal")
     }
 
     val virtualenvDir by lazy {
@@ -50,10 +50,9 @@ class PythonBuildTask : DefaultTask() {
                     }
                 }
 
-                commands.add("python ${project.file("setup.py").path} $distType")
+                commands.add("python ${project.file("setup.py").path} $distType --dist-dir=$pythonBuildDir")
 
                 project.exec {
-                    it.workingDir(pythonBuildDir)
                     it.commandLine(listOf(
                             "bash", "-c",
                             "source $virtualenvDir/bin/activate; ${commands.joinToString(";")}"
