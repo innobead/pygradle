@@ -5,6 +5,9 @@ Create a simple Ptyhon Gradle Plugin to build and test Python project in a sandb
 
 # Features
 * Use Python virtualenv to build and test in sandbox.
+* Use Python pip requirements for dependency management
+  * requirements.txt for compile/runtime dependencies
+  * requirements-test.txt for test compile/runtime/buildtime dependencies
 * Use Python pytest library to test and do test coverage.
 
 # Usages
