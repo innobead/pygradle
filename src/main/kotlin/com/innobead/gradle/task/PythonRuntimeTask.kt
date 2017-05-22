@@ -24,8 +24,8 @@ class PythonRuntimeTask : DefaultTask() {
     @TaskAction
     fun action() {
         val commands = mutableListOf<String>(
-                "export PYTHONPATH='$pythonDir/lib/python2.7/site-packages:\$PYTHONPATH'",
-                "export PATH='$pythonDir/bin:\$PATH'"
+                """export PYTHONPATH="$pythonDir/lib/python2.7/site-packages:${'$'}PYTHONPATH""",
+                """export PATH="$pythonDir/bin:${'$'}PATH"""
         )
 
         project.exec {
