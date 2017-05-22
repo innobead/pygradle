@@ -23,7 +23,10 @@ class PythonRuntimeTask : DefaultTask() {
 
     @TaskAction
     fun action() {
-        val commands = mutableListOf<String>()
+        val commands = mutableListOf<String>(
+                "export PYTHONPATH='$pythonDir/lib/python2.7/site-packages:\$PYTHONPATH'",
+                "export PATH='$pythonDir/bin:\$PATH'"
+        )
 
         project.exec {
             it.isIgnoreExitValue = true
@@ -36,9 +39,7 @@ class PythonRuntimeTask : DefaultTask() {
                 commands.addAll(listOf(
                         "curl -OL https://bootstrap.pypa.io/get-pip.py",
                         "python get-pip.py -I --prefix $pythonDir",
-                        "rm get-pip.py",
-                        "export PYTHONPATH='$pythonDir/lib/python2.7/site-packages:\$PYTHONPATH'",
-                        "export PATH='$pythonDir/bin:\$PATH'"
+                        "rm get-pip.py"
                 ))
             }
         }
