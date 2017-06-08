@@ -24,8 +24,8 @@ class PythonRuntimeTask : DefaultTask() {
     @TaskAction
     fun action() {
         val commands = mutableListOf<String>(
-                "export PYTHONPATH='$pythonDir/lib/python2.7/site-packages:\$PYTHONPATH'",
-                "export PATH='$pythonDir/bin:\$PATH'"
+                """export PYTHONPATH="$pythonDir/lib/python2.7/site-packages":${'$'}PYTHONPATH""",
+                """export PATH="$pythonDir/bin":${'$'}PATH"""
         )
 
         project.exec {
@@ -67,6 +67,8 @@ class PythonRuntimeTask : DefaultTask() {
         }
 
         logger.lifecycle("Creating an environment")
+        logger.debug(commands.joinToString("\n"))
+
         project.exec {
             it.workingDir(project.extensions.pythonPluginExtension.tmpDir)
             it.executable("bash")
