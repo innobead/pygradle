@@ -17,6 +17,10 @@ class PythonRuntimeTask : DefaultTask() {
         project.extensions.pythonPluginExtension.pythonDir
     }
 
+    val pipOptions by lazy {
+        project.extensions.pythonPluginExtension.pipOptions
+    }
+
     init {
         description = "Create Python sandbox (virtualenv)"
     }
@@ -59,7 +63,7 @@ class PythonRuntimeTask : DefaultTask() {
                 }
                 else -> {
                     commands.addAll(listOf(
-                            "pip install virtualenv -I --prefix $pythonDir",
+                            "pip install virtualenv -I --prefix $pythonDir $pipOptions".trim(),
                             "$pythonDir/bin/virtualenv $virtualenvDir"
                     ))
                 }

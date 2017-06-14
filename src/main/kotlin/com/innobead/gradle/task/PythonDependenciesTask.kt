@@ -15,6 +15,10 @@ class PythonDependenciesTask : DefaultTask() {
         project.extensions.pythonPluginExtension.virtualenvDir
     }
 
+    val pipOptions by lazy {
+        project.extensions.pythonPluginExtension.pipOptions
+    }
+
     var copyLibsDir: File? = null
 
     init {
@@ -37,7 +41,7 @@ class PythonDependenciesTask : DefaultTask() {
         project.exec {
             it.commandLine(listOf(
                     "bash", "-c",
-                    "source $virtualenvDir/bin/activate; pip install -r requirements.txt"
+                    "source $virtualenvDir/bin/activate; pip install -r requirements.txt $pipOptions".trim()
             ))
         }.rethrowFailure()
 
@@ -51,7 +55,7 @@ class PythonDependenciesTask : DefaultTask() {
             it.commandLine(listOf(
                     "bash", "-c",
                     "source $virtualenvDir/bin/activate; " +
-                            "pip install -I --prefix='$libsDir' -r requirements.txt"
+                            "pip install -I --prefix='$libsDir' -r requirements.txt $pipOptions".trim()
             ))
         }.rethrowFailure()
 
