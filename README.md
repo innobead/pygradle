@@ -4,11 +4,12 @@
 Create a simple Ptyhon Gradle Plugin to build and test Python project in a sandbox. 
 
 # Features
-* Use Python virtualenv to build and test in sandbox.
+* Use Python virtualenv to test, build in sandbox.
 * Use Python pip requirements for dependency management
   * requirements.txt for compile/runtime dependencies
   * requirements-test.txt for test compile/runtime/buildtime dependencies
 * Use Python pytest library to test and do test coverage.
+* Be able to publish build to PyPi repository.
 
 # Usages
 Two commands are able to use.
@@ -27,14 +28,21 @@ buildscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.com.innobead:gradle-python-plugin:1.0.11"
+        classpath "gradle.plugin.com.innobead:gradle-python-plugin:1.0.12"
     }
 }
 
 apply plugin: "com.innobead.python"
 
-python.sourceDirs = files('src')
-python.testSourceDirs = files('tests')
+python {
+    sourceDirs = files('src')
+    testSourceDirs = files('tests')
+    
+    pypiRepoUrl = 'https://pypi.python.org/simple/'
+    pypiRepoUsername = 'admin'
+    pypiRepoPassword = 'admin123'
+}
+
 ```
 
 # References
