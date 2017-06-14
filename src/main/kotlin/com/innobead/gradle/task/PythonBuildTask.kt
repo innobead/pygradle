@@ -6,6 +6,7 @@ import com.innobead.gradle.plugin.taskName
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
+import java.io.File
 
 
 @GradleSupport
@@ -21,6 +22,18 @@ class PythonBuildTask : DefaultTask() {
 
     val pythonBuildDir by lazy {
         project.extensions.pythonPluginExtension.pythonBuildDir
+    }
+
+    val pypiRepoUrl by lazy {
+        project.extensions.pythonPluginExtension.pypiRepoUrl
+    }
+
+    val pypiRepoUsername by lazy {
+        project.extensions.pythonPluginExtension.pypiRepoUsername
+    }
+
+    val pypiRepoPassword by lazy {
+        project.extensions.pythonPluginExtension.pypiRepoPassword
     }
 
     init {
@@ -50,7 +63,26 @@ class PythonBuildTask : DefaultTask() {
                     }
                 }
 
-                commands.add("python ${project.file("setup.py").path} $distType --dist-dir=$pythonBuildDir")
+                val uploadCommand = if (pypiRepoUrl != null && pypiRepoUsername != null && pypiRepoPassword != null) {
+                    File(System.getProperty("user.home"), ".pypirc").apply {
+                        logger.lifecycle("Creating ${this.absolutePath}")
+                        this.writeText(
+                                """
+        |[distutils]
+        |index-servers=pypi-internal
+        |
+        |[pypi-internal]
+        |repository=$pypiRepoUrl
+        |username=$pypiRepoUsername
+        |password=$pypiRepoPassword
+""".trimMargin())
+                    }
+
+                    logger.lifecycle("Publishing package to $pypiRepoUrl")
+                    "upload -r pypi-internal"
+                } else ""
+
+                commands.add("python ${project.file("setup.py").path} $distType --dist-dir=$pythonBuildDir $uploadCommand".trim())
 
                 project.exec {
                     it.commandLine(listOf(

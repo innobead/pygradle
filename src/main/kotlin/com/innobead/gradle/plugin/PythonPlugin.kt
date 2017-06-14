@@ -1,10 +1,7 @@
 package com.innobead.gradle.plugin
 
 import com.innobead.gradle.GradleSupport
-import com.innobead.gradle.task.PythonBuildTask
-import com.innobead.gradle.task.PythonDependenciesTask
-import com.innobead.gradle.task.PythonRuntimeTask
-import com.innobead.gradle.task.PythonTestTask
+import com.innobead.gradle.task.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -27,7 +24,7 @@ class PythonPlugin : Plugin<Project> {
 
             extensions.create("python", PythonPluginExtension::class.java, this)
 
-            logger.lifecycle("Creating $builtinTasks tasks")
+            logger.debug("Creating $builtinTasks tasks")
             builtinTasks.forEach {
                 project.tasks.create(it.taskName, it.java)
             }
