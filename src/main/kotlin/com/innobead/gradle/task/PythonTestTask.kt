@@ -19,6 +19,10 @@ class PythonTestTask : DefaultTask() {
         project.extensions.pythonPluginExtension.virtualenvDir
     }
 
+    val pipOptions by lazy {
+        project.extensions.pythonPluginExtension.pipOptions
+    }
+
     init {
         description = "Python Unit test (pytest)"
 
@@ -40,7 +44,7 @@ class PythonTestTask : DefaultTask() {
         val commands = mutableListOf<String>()
 
         if (project.file("requirements-test.txt").exists()) {
-            commands.add("pip install -r ${project.file("requirements-test.txt").absolutePath}")
+            commands.add("pip install -r ${project.file("requirements-test.txt").absolutePath} $pipOptions".trim())
         }
 
         commands.addAll(

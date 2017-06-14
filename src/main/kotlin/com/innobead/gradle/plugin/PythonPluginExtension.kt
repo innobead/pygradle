@@ -64,4 +64,6 @@ class PythonPluginExtension(val project: Project) {
 
     var pypiRepoPassword: String? = null
 
+    var pipOptions: String = ""
+
 }
