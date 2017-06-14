@@ -57,4 +57,11 @@ class PythonPluginExtension(val project: Project) {
 
             return dir
         }
+
+    var pypiRepoUrl: String? = null
+
+    var pypiRepoUsername: String? = null
+
+    var pypiRepoPassword: String? = null
+
 }
