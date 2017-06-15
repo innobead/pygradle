@@ -60,7 +60,11 @@ class PythonDependenciesTask : DefaultTask() {
         }.rethrowFailure()
 
         if (copyLibsDir != null) {
-            File(libsDir, "lib/python2.7/site-packages").copyRecursively(copyLibsDir!!, overwrite = true)
+            with(File(libsDir, "lib/python2.7/site-packages")) {
+                if (this.exists()) {
+                    this.copyRecursively(copyLibsDir!!, overwrite = true)
+                }
+            }
         }
     }
 
