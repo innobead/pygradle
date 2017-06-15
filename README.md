@@ -28,7 +28,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.com.innobead:gradle-python-plugin:1.0.12"
+        classpath "gradle.plugin.com.innobead:gradle-python-plugin:1.0.15"
     }
 }
 
