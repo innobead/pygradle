@@ -13,6 +13,7 @@ class PythonPlugin : Plugin<Project> {
         val builtinTasks = listOf(
                 PythonRuntimeTask::class,
                 PythonDependenciesTask::class,
+                PythonCompileTask::class,
                 PythonBuildTask::class,
                 PythonTestTask::class
         )
