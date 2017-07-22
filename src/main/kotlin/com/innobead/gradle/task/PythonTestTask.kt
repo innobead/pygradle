@@ -6,6 +6,7 @@ import com.innobead.gradle.plugin.pythonPluginExtension
 import com.innobead.gradle.plugin.taskName
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
+import java.io.File
 
 
 @GradleSupport
@@ -40,6 +41,12 @@ class PythonTestTask : DefaultTask() {
         val sourceDirs = (pythonPluginExtension.sourceDirs!!.toList() + project.projectDir).map { it.absolutePath }
         val testSourceDirs = pythonPluginExtension.testSourceDirs!!.map { it.absolutePath }
         val sourceCovDirs = pythonPluginExtension.sourceDirs
+
+        testSourceDirs.forEach {
+            File(it).walk().filter { it.isDirectory && "__pycache__" in it.name }.forEach {
+                it.deleteRecursively()
+            }
+        }
 
         val commands = mutableListOf<String>()
 
