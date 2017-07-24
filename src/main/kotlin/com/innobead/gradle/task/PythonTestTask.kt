@@ -68,7 +68,7 @@ class PythonTestTask : DefaultTask() {
 
         project.exec {
             it.isIgnoreExitValue = true
-            it.setWorkingDir(testReportDir)
+            it.workingDir(testReportDir)
             it.commandLine(listOf(
                     "bash", "-c",
                     "source $virtualenvDir/bin/activate; ${commands.joinToString(";")}"
