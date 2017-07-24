@@ -15,7 +15,8 @@ class PythonPlugin : Plugin<Project> {
                 PythonDependenciesTask::class,
                 PythonCompileTask::class,
                 PythonBuildTask::class,
-                PythonTestTask::class
+                PythonTestTask::class,
+                PythonGrpcTask::class
         )
     }
 
