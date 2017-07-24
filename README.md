@@ -8,7 +8,8 @@ Create a simple Ptyhon Gradle Plugin to compile, build, test and publish Python 
 * Use Python pip requirements for dependency management
   * requirements.txt for compile/runtime dependencies
   * requirements-test.txt for test compile/runtime/buildtime dependencies
-* Use Python pytest library to test and do test coverage.
+* Use Python pytest library to test and do test coverage
+* Build gRPC Python client code
 * Clean up pycache files before running tests
 * Be able to publish build to PyPi repository.
 
@@ -38,6 +39,10 @@ apply plugin: "com.innobead.python"
 python {
     sourceDirs = files('src')
     testSourceDirs = files('tests')
+    
+    protoSourceDirs = files('proto')
+    protoServiceProtoFiles = files(new File('proto', 'service.proto'))
+    protoCodeGeneratedDir = file('src/proto')
     
     pypiRepoUrl = 'https://pypi.python.org/simple/'
     pypiRepoUsername = 'admin'
