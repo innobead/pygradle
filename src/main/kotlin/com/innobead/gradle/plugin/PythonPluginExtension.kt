@@ -58,6 +58,19 @@ class PythonPluginExtension(val project: Project) {
             return dir
         }
 
+    var protoSourceDirs: ConfigurableFileCollection? = null
+
+    var protoServiceProtoFiles: ConfigurableFileCollection? = null
+
+    var protoCodeGeneratedDir: File? = null
+        get() {
+            val dir = field ?: File(project.buildDir, "proto")
+            dir.mkdirs()
+
+            return dir
+        }
+
+
     var pypiRepoUrl: String? = null
 
     var pypiRepoUsername: String? = null
