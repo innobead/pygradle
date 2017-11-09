@@ -28,7 +28,7 @@ dependencies {
 }
 
 group = "com.innobead"
-version = "1.0.25"
+version = "1.0.26"
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
