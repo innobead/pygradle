@@ -45,7 +45,7 @@ class PythonGrpcTask : DefaultTask() {
         logger.lifecycle("Building gRPC Python client code based on the proto files from ${protoSourceDirs}")
 
         val commands = listOf(
-                "pip install grpcio grpcio-tools $pipOptions",
+                "pip install grpcio==1.6.3 grpcio-tools==1.6.3 $pipOptions",
                 "python -m grpc_tools.protoc ${protoSourceDirs!!.map { "-I$it" }.joinToString(" ")} " +
                         "--python_out=$protoCodeGeneratedDir " +
                         "--grpc_python_out=$protoCodeGeneratedDir ${protoServiceProtoFiles!!.joinToString(" ") }"
