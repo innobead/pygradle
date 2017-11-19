@@ -15,7 +15,7 @@ class PythonPluginExtension(val project: Project) {
 
     var testSourceDirs: ConfigurableFileCollection? = null
         get() {
-            return field ?:  project.files(File("tests"))
+            return field ?: project.files(File("tests"))
         }
 
     var tmpDir: File? = null
@@ -49,6 +49,9 @@ class PythonPluginExtension(val project: Project) {
 
             return dir
         }
+
+    var pythonSetupPyFiles: ConfigurableFileCollection? = null
+        get() = field ?: project.files("setup.py")
 
     var testReportDir: File? = null
         get() {

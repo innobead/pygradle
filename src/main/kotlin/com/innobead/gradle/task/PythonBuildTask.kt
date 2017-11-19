@@ -24,6 +24,10 @@ class PythonBuildTask : DefaultTask() {
         project.extensions.pythonPluginExtension.pythonBuildDir
     }
 
+    val pythonSetupPyFiles by lazy {
+        project.extensions.pythonPluginExtension.pythonSetupPyFiles
+    }
+
     val pypiRepoUrl by lazy {
         project.extensions.pythonPluginExtension.pypiRepoUrl
     }
@@ -49,25 +53,29 @@ class PythonBuildTask : DefaultTask() {
     fun action() {
         val commands = mutableListOf("pip install wheel")
 
-        when {
-            project.file("setup.py").exists() -> {
-                logger.lifecycle("Building package based on setup.py")
+        if (!pythonSetupPyFiles!!.all { it.exists() }) {
+            logger.lifecycle("Ignored package build, because setup.py is not found")
+            return
+        }
 
-                var distType = "bdist_wheel"
+        pythonSetupPyFiles!!.forEach { setupFile ->
+            logger.lifecycle("Building package based on setup.py")
 
-                if (project.hasProperty("pyDistType")) {
-                    distType = project.property("pyDistType").toString().apply {
-                        if (this !in distTypeSupports) {
-                            throw GradleException("Incorrect pyDistType ($this) property. Only support $distTypeSupports.")
-                        }
+            var distType = "bdist_wheel"
+
+            if (project.hasProperty("pyDistType")) {
+                distType = project.property("pyDistType").toString().apply {
+                    if (this !in distTypeSupports) {
+                        throw GradleException("Incorrect pyDistType ($this) property. Only support $distTypeSupports.")
                     }
                 }
+            }
 
-                val uploadCommand = if (pypiRepoUrl != null && pypiRepoUsername != null && pypiRepoPassword != null) {
-                    File(System.getProperty("user.home"), ".pypirc").apply {
-                        logger.lifecycle("Creating ${this.absolutePath}")
-                        this.writeText(
-                                """
+            val uploadCommand = if (pypiRepoUrl != null && pypiRepoUsername != null && pypiRepoPassword != null) {
+                File(System.getProperty("user.home"), ".pypirc").apply {
+                    logger.lifecycle("Creating ${this.absolutePath}")
+                    this.writeText(
+                            """
         |[distutils]
         |index-servers=pypi-internal
         |
@@ -76,23 +84,20 @@ class PythonBuildTask : DefaultTask() {
         |username=$pypiRepoUsername
         |password=$pypiRepoPassword
 """.trimMargin())
-                    }
+                }
 
-                    logger.lifecycle("Publishing package to $pypiRepoUrl")
-                    "upload -r pypi-internal"
-                } else ""
+                logger.lifecycle("Publishing package to $pypiRepoUrl")
+                "upload -r pypi-internal"
+            } else ""
 
-                commands.add("python ${project.file("setup.py").path} $distType --dist-dir=$pythonBuildDir $uploadCommand".trim())
+            commands.add("python $setupFile $distType --dist-dir=$pythonBuildDir $uploadCommand".trim())
 
-                project.exec {
-                    it.commandLine(listOf(
-                            "bash", "-c",
-                            "source $virtualenvDir/bin/activate; ${commands.joinToString(";")}"
-                    ))
-                }.rethrowFailure()
-            }
-
-            else -> logger.lifecycle("Ignored package build, because setup.py is not found")
+            project.exec {
+                it.commandLine(listOf(
+                        "bash", "-c",
+                        "source $virtualenvDir/bin/activate; ${commands.joinToString(";")}"
+                ))
+            }.rethrowFailure()
         }
     }
 
