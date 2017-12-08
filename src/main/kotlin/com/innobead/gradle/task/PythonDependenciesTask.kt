@@ -41,10 +41,9 @@ class PythonDependenciesTask : DefaultTask() {
         project.exec {
             it.commandLine(listOf(
                     "bash", "-c",
-                    "source $virtualenvDir/bin/activate; pip install -r requirements.txt $pipOptions".trim()
+                    "source '$virtualenvDir/bin/activate'; pip install -r requirements.txt $pipOptions".trim()
             ))
         }.rethrowFailure()
-
 
         val libsDir = File(project.buildDir, "libs")
         libsDir.mkdirs()
@@ -54,7 +53,7 @@ class PythonDependenciesTask : DefaultTask() {
         project.exec {
             it.commandLine(listOf(
                     "bash", "-c",
-                    "source $virtualenvDir/bin/activate; " +
+                    "source '$virtualenvDir/bin/activate'; " +
                             "pip install -I --prefix='$libsDir' -r requirements.txt $pipOptions".trim()
             ))
         }.rethrowFailure()
