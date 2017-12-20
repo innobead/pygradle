@@ -63,7 +63,7 @@ class PythonRuntimeTask : DefaultTask() {
                 }
                 else -> {
                     commands.addAll(listOf(
-                            "pip install virtualenv -I --prefix $pythonDir $pipOptions".trim(),
+                            "python -m pip install virtualenv -I --prefix $pythonDir $pipOptions".trim(),
                             "$pythonDir/bin/virtualenv $virtualenvDir"
                     ))
                 }

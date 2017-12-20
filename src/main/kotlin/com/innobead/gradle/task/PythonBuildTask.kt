@@ -51,7 +51,7 @@ class PythonBuildTask : DefaultTask() {
 
     @TaskAction
     fun action() {
-        val commands = mutableListOf("pip install wheel")
+        val commands = mutableListOf("python -m pip install wheel")
 
         if (!pythonSetupPyFiles!!.all { it.exists() }) {
             logger.lifecycle("Ignored package build, because setup.py is not found")
