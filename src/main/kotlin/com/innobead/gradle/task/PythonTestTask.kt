@@ -58,7 +58,7 @@ class PythonTestTask : DefaultTask() {
                 listOf(
                         "python -m pip install pytest pytest-cov",
                         "export PYTHONPATH='${sourceDirs.joinToString(":")}:\$PYTHONPATH'",
-                        "pytest ${testSourceDirs.joinToString(" ")} " +
+                        "python -m pytest ${testSourceDirs.joinToString(" ")} " +
                                 "--junit-xml=$testReportDir/junit-output.xml " +
                                 "${sourceCovDirs!!.map { "--cov=${it.absolutePath}" }.joinToString(" ")} " +
                                 "--cov-report term-missing " +
