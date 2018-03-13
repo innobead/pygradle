@@ -60,8 +60,10 @@ class PythonDependenciesTask : DefaultTask() {
         }.rethrowFailure()
 
         if (copyLibsDir != null) {
-            with(File(libsDir, "lib/python2.7/site-packages")) {
-                if (this.exists()) {
+            listOf("2.7", "3.6").map { File(libsDir, "lib/python$it/site-packages") }.find {
+                it.exists()
+            }?.apply {
+                with(this) {
                     this.copyRecursively(copyLibsDir!!, overwrite = true)
                 }
             }
