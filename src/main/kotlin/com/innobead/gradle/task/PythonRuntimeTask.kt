@@ -1,9 +1,10 @@
 package com.innobead.gradle.task
 
-import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.TaskAction
 import com.innobead.gradle.GradleSupport
 import com.innobead.gradle.plugin.pythonPluginExtension
+import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.TaskAction
+import java.io.File
 
 
 @GradleSupport
@@ -27,10 +28,17 @@ class PythonRuntimeTask : DefaultTask() {
 
     @TaskAction
     fun action() {
-        val commands = mutableListOf<String>(
-                """export PYTHONPATH="$pythonDir/lib/python2.7/site-packages":${'$'}PYTHONPATH""",
-                """export PATH="$pythonDir/bin":${'$'}PATH"""
-        )
+        val commands = mutableListOf<String>()
+
+        listOf("2.7", "3.6").map { File(pythonDir, "lib/python$it/site-packages") }.find {
+            it.exists()
+        }?.apply {
+            commands.add(
+                    """export PYTHONPATH="${this.canonicalPath}":${'$'}PYTHONPATH"""
+            )
+        }
+
+        commands.add("""export PATH="$pythonDir/bin":${'$'}PATH""")
 
         project.exec {
             it.isIgnoreExitValue = true
