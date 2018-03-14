@@ -12,6 +12,7 @@ Create a simple Python Gradle Plugin to compile, build, test and publish Python 
 * Build gRPC Python client code (grpc 1.7.0)
 * Clean up pycache files before running tests
 * Be able to publish build to PyPi repository.
+* Support Python 2.7 & 3.6
 
 # Usages
 Two commands are able to use.
@@ -30,7 +31,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.com.innobead:gradle-python-plugin:1.1.0"
+        classpath "gradle.plugin.com.innobead:gradle-python-plugin:1.1.2"
     }
 }
 

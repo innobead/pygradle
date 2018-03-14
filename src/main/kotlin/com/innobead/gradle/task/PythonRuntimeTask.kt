@@ -4,7 +4,6 @@ import com.innobead.gradle.GradleSupport
 import com.innobead.gradle.plugin.pythonPluginExtension
 import org.gradle.api.BuildCancelledException
 import org.gradle.api.DefaultTask
-import org.gradle.api.GradleScriptException
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
