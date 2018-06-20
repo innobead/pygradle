@@ -30,15 +30,12 @@ class PythonRuntimeTask : DefaultTask() {
     @TaskAction
     fun action() {
         val commands = mutableListOf<String>()
-        preparePythonEnv(commands)
 
         project.exec {
             it.isIgnoreExitValue = true
             it.executable("bash")
             it.args("-c", "which pip > /dev/null 2>&1")
         }.exitValue.also {
-            logger.lifecycle("Installing pip")
-
             if (it != 0) {
                 commands.addAll(listOf(
                         "curl -OL https://bootstrap.pypa.io/get-pip.py",
@@ -47,6 +44,22 @@ class PythonRuntimeTask : DefaultTask() {
                 ))
             }
         }
+
+        logger.lifecycle("Installing pip")
+        logger.debug(commands.joinToString("\n"))
+
+        project.exec {
+            it.workingDir(project.extensions.pythonPluginExtension.tmpDir)
+            it.executable("bash")
+            it.environment(System.getenv())
+            it.args(listOf(
+                    "-c",
+                    commands.joinToString(";")
+            ))
+        }.rethrowFailure()
+
+        logger.lifecycle("Installing pip")
+        preparePythonEnv(commands)
 
         val commandToCreateVirtualEnv = project.exec {
             it.isIgnoreExitValue = true
@@ -107,13 +120,10 @@ class PythonRuntimeTask : DefaultTask() {
         listOf("2.7", "3.6").map { File(pythonDir, "lib/python$it/site-packages") }.find {
             it.exists()
         }?.apply {
-            commands.addAll(
-                    listOf(
-                            """export PYTHONPATH="${this.canonicalPath}":${'$'}PYTHONPATH""",
-                            """export PATH="$pythonDir/bin":${'$'}PATH"""
-                    )
-            )
+            commands.add("""export PYTHONPATH="${this.canonicalPath}":${'$'}PYTHONPATH""")
         }
+
+        commands.add("""export PATH="$pythonDir/bin":${'$'}PATH""")
     }
 
 }
