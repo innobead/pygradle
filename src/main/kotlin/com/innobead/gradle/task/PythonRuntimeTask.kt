@@ -30,8 +30,7 @@ class PythonRuntimeTask : DefaultTask() {
     @TaskAction
     fun action() {
         val commands = mutableListOf<String>()
-
-        commands.add("""export PATH="$pythonDir/bin":${'$'}PATH""")
+        preparePythonEnv(commands)
 
         project.exec {
             it.isIgnoreExitValue = true
@@ -83,16 +82,7 @@ class PythonRuntimeTask : DefaultTask() {
         }.rethrowFailure()
 
         logger.lifecycle("Creating a virtual environment")
-
-        commands.clear()
-
-        listOf("2.7", "3.6").map { File(pythonDir, "lib/python$it/site-packages") }.find {
-            it.exists()
-        }?.apply {
-            commands.add(
-                    """export PYTHONPATH="${this.canonicalPath}":${'$'}PYTHONPATH"""
-            )
-        }
+        preparePythonEnv(commands)
 
         if (commands.isEmpty()) {
             throw BuildCancelledException("No Python installed in $pythonDir")
@@ -109,6 +99,21 @@ class PythonRuntimeTask : DefaultTask() {
                     commands.joinToString(";")
             ))
         }.rethrowFailure()
+    }
+
+    private fun preparePythonEnv(commands: MutableList<String>) {
+        commands.clear()
+
+        listOf("2.7", "3.6").map { File(pythonDir, "lib/python$it/site-packages") }.find {
+            it.exists()
+        }?.apply {
+            commands.addAll(
+                    listOf(
+                            """export PYTHONPATH="${this.canonicalPath}":${'$'}PYTHONPATH""",
+                            """export PATH="$pythonDir/bin":${'$'}PATH"""
+                    )
+            )
+        }
     }
 
 }
