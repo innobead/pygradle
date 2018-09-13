@@ -48,7 +48,7 @@ class PythonGrpcTask : DefaultTask() {
                 "python -m pip install grpcio==1.7.0 grpcio-tools==1.7.0 $pipOptions",
                 "python -m grpc_tools.protoc ${protoSourceDirs!!.map { "-I$it" }.joinToString(" ")} " +
                         "--python_out=$protoCodeGeneratedDir " +
-                        "--grpc_python_out=$protoCodeGeneratedDir ${protoServiceProtoFiles!!.joinToString(" ") }"
+                        "--grpc_python_out=$protoCodeGeneratedDir ${protoServiceProtoFiles!!.joinToString(" ")}"
         )
 
         protoCodeGeneratedDir!!.mkdirs()
@@ -60,7 +60,7 @@ class PythonGrpcTask : DefaultTask() {
                     "bash", "-c",
                     "source $virtualenvDir/bin/activate; ${commands.joinToString(";")}"
             ))
-        }.rethrowFailure()
+        }
     }
 
 }

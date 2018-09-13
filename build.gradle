@@ -29,7 +29,7 @@ dependencies {
 }
 
 group = "com.innobead"
-version = "1.2.0"
+version = "1.2.1"
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
@@ -59,14 +59,14 @@ junitPlatform {
 
 pluginBundle {
     website = 'http://www.gradle.org/'
-    vcsUrl = 'https://github.com/gradle/gradle'
-    description = 'Build, test Python in sandbox with Gradle'
+    vcsUrl = 'https://github.com/innobead/pygradle'
+    description = 'A Gradle plugin for building, testing Python project'
     tags = ['python']
 
     plugins {
         greetingsPlugin {
             id = 'com.innobead.python'
-            displayName = 'Build, test Python in sandbox with Gradle'
+            displayName = 'A Gradle plugin for building, testing Python project'
         }
     }
 }

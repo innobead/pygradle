@@ -40,7 +40,6 @@ class PythonCleanTask : DefaultTask() {
                     commands.joinToString(";")
             ))
         }.rethrowFailure()
-
     }
 
 }
