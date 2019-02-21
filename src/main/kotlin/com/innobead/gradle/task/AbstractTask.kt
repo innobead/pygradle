@@ -23,13 +23,15 @@ abstract class AbstractTask : DefaultTask() {
     }
 
     fun getPythonLibDir(): File? {
-        val pythonLibDirs = File(pythonDir, "lib").listFiles { f ->
-            f.isDirectory
-        }
-
         var pythonLibDir: File? = null
+
         for (pattern in listOf("2.*", "3.*").map { "python$it" }) {
-            pythonLibDir = pythonLibDirs.first { pattern.toRegex().matches(it.name) }
+            pythonLibDir = File(pythonDir, "lib").listFiles { f ->
+                f.isDirectory
+            }?.find {
+                pattern.toRegex().matches(it.name)
+            }
+
             if (pythonLibDir != null) {
                 break
             }

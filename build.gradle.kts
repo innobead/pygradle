@@ -8,16 +8,13 @@ plugins {
 }
 
 group = "com.innobead"
-version = "1.3.0"
+version = "1.3.1"
 
 repositories {
     jcenter()
     mavenLocal()
     mavenCentral()
 }
-
-val spekVersion = "1.1.2"
-val junitPluginVersion = "1.0.0-M4"
 
 dependencies {
     compile(gradleApi())
@@ -56,7 +53,7 @@ gradlePlugin {
 }
 
 pluginBundle {
-    website = "http://www.gradle.org/"
+    website = "https://github.com/innobead/pygradle"
     vcsUrl = "https://github.com/innobead/pygradle"
     tags = listOf("python")
 
