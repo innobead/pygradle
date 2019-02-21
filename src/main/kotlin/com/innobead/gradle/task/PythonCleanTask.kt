@@ -1,6 +1,7 @@
 package com.innobead.gradle.task
 
 import com.innobead.gradle.GradleSupport
+import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.PythonPluginExtension
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
@@ -9,6 +10,7 @@ import org.gradle.api.tasks.TaskAction
 class PythonCleanTask : DefaultTask() {
 
     init {
+        group = PythonPlugin.name
         description = "Clean Python compiled things"
 
         project.afterEvaluate {

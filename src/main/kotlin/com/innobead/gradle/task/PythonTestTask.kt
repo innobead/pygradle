@@ -1,6 +1,7 @@
 package com.innobead.gradle.task
 
 import com.innobead.gradle.GradleSupport
+import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.PythonPluginExtension
 import com.innobead.gradle.plugin.pythonPluginExtension
 import com.innobead.gradle.plugin.taskName
@@ -25,6 +26,7 @@ class PythonTestTask : DefaultTask() {
     }
 
     init {
+        group = PythonPlugin.name
         description = "Python Unit test (pytest)"
 
         project.afterEvaluate {

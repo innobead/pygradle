@@ -1,22 +1,17 @@
 package com.innobead.gradle.task
 
 import com.innobead.gradle.GradleSupport
+import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.pythonPluginExtension
-import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
-import java.io.File
 
 
 @GradleSupport
-class PythonRuntimeTask : DefaultTask() {
+class PythonRuntimeTask : AbstractTask() {
 
     val virtualenvDir by lazy {
         project.extensions.pythonPluginExtension.virtualenvDir
-    }
-
-    val pythonDir by lazy {
-        project.extensions.pythonPluginExtension.pythonDir
     }
 
     val pipOptions by lazy {
@@ -29,6 +24,7 @@ class PythonRuntimeTask : DefaultTask() {
     )
 
     init {
+        group = PythonPlugin.name
         description = "Create Python sandbox (virtualenv)"
     }
 
@@ -122,18 +118,6 @@ class PythonRuntimeTask : DefaultTask() {
                     commands.joinToString(";")
             ))
         }.rethrowFailure()
-    }
-
-    private fun preparePythonEnv(commands: MutableList<String>) {
-        commands.clear()
-
-        listOf("2.7", "3.6").map { File(pythonDir, "lib/python$it/site-packages") }.find {
-            it.exists()
-        }?.apply {
-            commands.add("""export PYTHONPATH="${this.canonicalPath}":${'$'}PYTHONPATH""")
-        }
-
-        commands.add("""export PATH="$pythonDir/bin":${'$'}PATH""")
     }
 
 }
