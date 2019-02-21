@@ -1,6 +1,7 @@
 package com.innobead.gradle.task
 
 import com.innobead.gradle.GradleSupport
+import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.pythonPluginExtension
 import com.innobead.gradle.plugin.taskName
 import org.gradle.api.DefaultTask
@@ -32,6 +33,7 @@ class PythonGrpcTask : DefaultTask() {
     }
 
     init {
+        group = PythonPlugin.name
         description = "Build gRPC Python client code"
 
         project.afterEvaluate {

@@ -1,15 +1,15 @@
 package com.innobead.gradle.task
 
 import com.innobead.gradle.GradleSupport
+import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.pythonPluginExtension
 import com.innobead.gradle.plugin.taskName
-import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
 
 @GradleSupport
-class PythonDependenciesTask : DefaultTask() {
+class PythonDependenciesTask : AbstractTask() {
 
     val virtualenvDir by lazy {
         project.extensions.pythonPluginExtension.virtualenvDir
@@ -22,6 +22,7 @@ class PythonDependenciesTask : DefaultTask() {
     var copyLibsDir: File? = null
 
     init {
+        group = PythonPlugin.name
         description = "Install Python dependencies"
 
         project.afterEvaluate {
@@ -60,11 +61,9 @@ class PythonDependenciesTask : DefaultTask() {
         }.rethrowFailure()
 
         if (copyLibsDir != null) {
-            listOf("2.7", "3.6").map { File(libsDir, "lib/python$it/site-packages") }.find {
-                it.exists()
-            }?.apply {
-                with(this) {
-                    this.copyRecursively(copyLibsDir!!, overwrite = true)
+            getPythonLibDir()?.apply {
+                with(File(this, "site-packages")) {
+                    copyRecursively(copyLibsDir!!, overwrite = true)
                 }
             }
         }
