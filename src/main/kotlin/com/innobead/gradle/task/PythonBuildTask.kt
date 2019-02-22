@@ -84,6 +84,8 @@ class PythonBuildTask : AbstractTask() {
                 "upload -r pypi-internal"
             } else ""
 
+            pythonBuildDir?.deleteRecursively()
+
             commands.add("python $setupFile $distType --dist-dir=$pythonBuildDir $uploadCommand".trim())
 
             project.exec {
