@@ -10,11 +10,7 @@ import org.gradle.api.tasks.TaskAction
 
 
 @GradleSupport
-class PythonCompileTask : DefaultTask() {
-
-    val virtualenvDir by lazy {
-        project.extensions.pythonPluginExtension.virtualenvDir
-    }
+class PythonCompileTask : AbstractTask() {
 
     init {
         group = PythonPlugin.name

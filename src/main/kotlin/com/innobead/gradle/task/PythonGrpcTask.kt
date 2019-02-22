@@ -10,7 +10,7 @@ import java.io.File
 
 
 @GradleSupport
-class PythonGrpcTask : DefaultTask() {
+class PythonGrpcTask : AbstractTask() {
 
     val protoSourceDirs by lazy {
         project.extensions.pythonPluginExtension.protoSourceDirs
@@ -22,10 +22,6 @@ class PythonGrpcTask : DefaultTask() {
 
     val protoCodeGeneratedDir by lazy {
         project.extensions.pythonPluginExtension.protoCodeGeneratedDir
-    }
-
-    val virtualenvDir by lazy {
-        project.extensions.pythonPluginExtension.virtualenvDir
     }
 
     val pipOptions by lazy {

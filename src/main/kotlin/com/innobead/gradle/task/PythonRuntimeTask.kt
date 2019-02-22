@@ -5,14 +5,11 @@ import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.pythonPluginExtension
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
+import org.gradle.internal.io.NullOutputStream
 
 
 @GradleSupport
 class PythonRuntimeTask : AbstractTask() {
-
-    val virtualenvDir by lazy {
-        project.extensions.pythonPluginExtension.virtualenvDir
-    }
 
     val pipOptions by lazy {
         project.extensions.pythonPluginExtension.pipOptions
@@ -32,36 +29,39 @@ class PythonRuntimeTask : AbstractTask() {
     fun action() {
         val commands = mutableListOf<String>()
 
-        var isPipInstalled = false
+        var pipInstalled = isPipInstalled()
 
-        for (url in downloadUrls) {
-            commands.addAll(listOf(
-                    "curl -OL $url",
-                    "python get-pip.py -I --prefix $pythonDir",
-                    "rm get-pip.py"
-            ))
+        if (!pipInstalled) {
+            for (url in downloadUrls) {
+                logger.lifecycle("Installing pip")
 
-            logger.lifecycle("Installing pip")
-            logger.debug(commands.joinToString("\n"))
-
-            val result = project.exec {
-                it.workingDir(project.extensions.pythonPluginExtension.tmpDir)
-                it.executable("bash")
-                it.environment(System.getenv())
-                it.args(listOf(
-                        "-c",
-                        commands.joinToString(";")
+                commands.addAll(listOf(
+                        "curl -OL $url",
+                        "python get-pip.py -I --prefix $pythonDir",
+                        "rm get-pip.py"
                 ))
-                it.isIgnoreExitValue = true
-            }
 
-            if (result.exitValue == 0) {
-                isPipInstalled = true
-                break
+                logger.debug(commands.joinToString("\n"))
+
+                val result = project.exec {
+                    it.workingDir(project.extensions.pythonPluginExtension.tmpDir)
+                    it.executable("bash")
+                    it.environment(System.getenv())
+                    it.args(listOf(
+                            "-c",
+                            commands.joinToString(";")
+                    ))
+                    it.isIgnoreExitValue = true
+                }
+
+                if (result.exitValue == 0) {
+                    pipInstalled = true
+                    break
+                }
             }
         }
 
-        if (!isPipInstalled) {
+        if (!pipInstalled) {
             throw GradleException("Unable to install pip from $downloadUrls")
         }
 
@@ -118,6 +118,24 @@ class PythonRuntimeTask : AbstractTask() {
                     commands.joinToString(";")
             ))
         }.rethrowFailure()
+    }
+
+    private fun isPipInstalled(): Boolean {
+        val result = project.exec {
+            it.workingDir(project.extensions.pythonPluginExtension.tmpDir)
+            it.executable("bash")
+            it.environment(System.getenv())
+            it.standardOutput = NullOutputStream.INSTANCE
+            it.errorOutput = NullOutputStream.INSTANCE
+            it.args(listOf(
+
+                    "-c",
+                    "python -m pip"
+            ))
+            it.isIgnoreExitValue = true
+        }
+
+        return result.exitValue == 0
     }
 
 }

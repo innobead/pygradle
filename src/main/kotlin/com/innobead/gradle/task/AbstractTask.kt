@@ -6,8 +6,16 @@ import java.io.File
 
 abstract class AbstractTask : DefaultTask() {
 
+    val virtualenvDir by lazy {
+        project.extensions.pythonPluginExtension.virtualenvDir
+    }
+
     val pythonDir by lazy {
         project.extensions.pythonPluginExtension.pythonDir
+    }
+
+    val pythonBuildDir by lazy {
+        project.extensions.pythonPluginExtension.pythonBuildDir
     }
 
     fun preparePythonEnv(commands: MutableList<String>) {
@@ -31,7 +39,7 @@ abstract class AbstractTask : DefaultTask() {
             }?.find {
                 pattern.toRegex().matches(it.name)
             }
-
+            
             if (pythonLibDir != null) {
                 break
             }

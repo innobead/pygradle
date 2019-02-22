@@ -11,18 +11,10 @@ import java.io.File
 
 
 @GradleSupport
-class PythonBuildTask : DefaultTask() {
+class PythonBuildTask : AbstractTask() {
 
     companion object {
         val distTypeSupports = listOf("sdist", "bdist_wheel", "bdist_wheel --universal")
-    }
-
-    val virtualenvDir by lazy {
-        project.extensions.pythonPluginExtension.virtualenvDir
-    }
-
-    val pythonBuildDir by lazy {
-        project.extensions.pythonPluginExtension.pythonBuildDir
     }
 
     val pythonSetupPyFiles by lazy {

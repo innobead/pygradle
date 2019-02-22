@@ -11,14 +11,10 @@ import java.io.File
 
 
 @GradleSupport
-class PythonTestTask : DefaultTask() {
+class PythonTestTask : AbstractTask() {
 
     val testReportDir by lazy {
         project.extensions.pythonPluginExtension.testReportDir
-    }
-
-    val virtualenvDir by lazy {
-        project.extensions.pythonPluginExtension.virtualenvDir
     }
 
     val pipOptions by lazy {
