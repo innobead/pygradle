@@ -5,7 +5,7 @@ import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.pythonPluginExtension
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
-import java.io.OutputStream
+import org.gradle.internal.io.NullOutputStream
 
 
 @GradleSupport
@@ -125,9 +125,10 @@ class PythonRuntimeTask : AbstractTask() {
             it.workingDir(project.extensions.pythonPluginExtension.tmpDir)
             it.executable("bash")
             it.environment(System.getenv())
-            it.standardOutput = OutputStream.nullOutputStream()
-            it.errorOutput = OutputStream.nullOutputStream()
+            it.standardOutput = NullOutputStream.INSTANCE
+            it.errorOutput = NullOutputStream.INSTANCE
             it.args(listOf(
+
                     "-c",
                     "python -m pip"
             ))
