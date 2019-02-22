@@ -11,10 +11,6 @@ import java.io.File
 @GradleSupport
 class PythonDependenciesTask : AbstractTask() {
 
-    val virtualenvDir by lazy {
-        project.extensions.pythonPluginExtension.virtualenvDir
-    }
-
     val pipOptions by lazy {
         project.extensions.pythonPluginExtension.pipOptions
     }

@@ -7,7 +7,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
 @GradleSupport
-class PythonCleanTask : DefaultTask() {
+class PythonCleanTask : AbstractTask() {
 
     init {
         group = PythonPlugin.name
