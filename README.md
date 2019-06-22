@@ -54,3 +54,6 @@ python {
 
 # References
 [com.innobead.python Gradle plugin](https://plugins.gradle.org/plugin/com.innobead.python)
+
+# Notes
+Thanks for **IntelliJ** great support!
