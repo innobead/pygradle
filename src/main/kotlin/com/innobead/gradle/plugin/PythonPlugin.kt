@@ -24,16 +24,13 @@ class PythonPlugin : Plugin<Project> {
         )
     }
 
-
     override fun apply(project: Project?) {
         with(project!!) {
-
             apply(mapOf("plugin" to "base"))
 
             extensions.create("python", PythonPluginExtension::class.java, this)
 
             logger.debug("Creating $builtinTasks tasks")
-
             builtinTasks.forEach {
                 project.tasks.create(it.taskName, it.java)
             }
