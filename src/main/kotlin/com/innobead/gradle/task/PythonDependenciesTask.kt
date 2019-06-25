@@ -37,14 +37,14 @@ class PythonDependenciesTask : AbstractTask() {
             return
         }
 
-        val f = File( "build/.requirements")
+        val f =  File(project.buildDir, ".requirements")
 
         if(keepBuildCached && f.exists()){
-            logger.lifecycle("Ignored to install dependencies, because build directory is already present")
+            logger.lifecycle("Ignored to install dependencies, because requirements flag is set")
             return
         }
 
-        logger.lifecycle("Installing dependencies in requirements.txt")
+        logger.lifecycle("Installing dependencies in requirements.txt ${f.exists()} ")
 
         project.exec {
             it.commandLine(listOf(
@@ -75,11 +75,7 @@ class PythonDependenciesTask : AbstractTask() {
             }
         }
 
-        project.exec {
-            it.commandLine(listOf(
-                    "bash", "-c", "touch build/.requirements"
-            ))
-        }.rethrowFailure()
+       f.createNewFile()
     }
 
 }
