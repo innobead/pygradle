@@ -73,6 +73,7 @@ class PythonPluginExtension(val project: Project) {
             return dir
         }
 
+    var keepBuildCached:Boolean = false
 
     var pypiRepoUrl: String? = null
 

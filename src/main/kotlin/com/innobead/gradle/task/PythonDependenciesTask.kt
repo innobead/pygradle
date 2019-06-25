@@ -15,6 +15,10 @@ class PythonDependenciesTask : AbstractTask() {
         project.extensions.pythonPluginExtension.pipOptions
     }
 
+    val keepBuildCached by lazy {
+        project.extensions.pythonPluginExtension.keepBuildCached
+    }
+
     var copyLibsDir: File? = null
 
     init {
@@ -30,6 +34,11 @@ class PythonDependenciesTask : AbstractTask() {
     fun action() {
         if (!project.file("requirements.txt").exists()) {
             logger.lifecycle("Ignored to install dependencies, because requirements.txt not found")
+            return
+        }
+
+        if(keepBuildCached && project.file("build").exists()){
+            logger.lifecycle("Ignored to install dependencies, because build directory is already present")
             return
         }
 
