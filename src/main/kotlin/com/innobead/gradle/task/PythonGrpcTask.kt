@@ -28,6 +28,10 @@ class PythonGrpcTask : AbstractTask() {
         project.extensions.pythonPluginExtension.pipOptions
     }
 
+    val grpcVersion by lazy {
+        project.extensions.pythonPluginExtension.grpcVersion
+    }
+
     init {
         group = PythonPlugin.name
         description = "Build gRPC Python client code"
@@ -43,7 +47,7 @@ class PythonGrpcTask : AbstractTask() {
         logger.lifecycle("Building gRPC Python client code based on the proto files from ${protoSourceDirs}")
 
         val commands = listOf(
-                "python -m pip install grpcio==1.7.0 grpcio-tools==1.7.0 $pipOptions",
+                "python -m pip install grpcio==$grpcVersion grpcio-tools==$grpcVersion $pipOptions",
                 "python -m grpc_tools.protoc ${protoSourceDirs!!.map { "-I$it" }.joinToString(" ")} " +
                         "--python_out=$protoCodeGeneratedDir " +
                         "--grpc_python_out=$protoCodeGeneratedDir ${protoServiceProtoFiles!!.joinToString(" ")}"
