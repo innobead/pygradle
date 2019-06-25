@@ -84,6 +84,6 @@ class PythonPluginExtension(val project: Project) {
 
     var grpcVersion: String = "1.7.0"
 
-    var disabledTasks: Set<String> = setOf()
+    var disableGrpc:Boolean = false
 
 }

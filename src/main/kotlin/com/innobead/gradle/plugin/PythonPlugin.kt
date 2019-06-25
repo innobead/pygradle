@@ -28,16 +28,13 @@ class PythonPlugin : Plugin<Project> {
     override fun apply(project: Project?) {
         with(project!!) {
 
-            val disabledTasks by lazy {
-                project.extensions.pythonPluginExtension.disabledTasks
-            }
-
             apply(mapOf("plugin" to "base"))
 
             extensions.create("python", PythonPluginExtension::class.java, this)
 
             logger.debug("Creating $builtinTasks tasks")
-            builtinTasks.filterNot { disabledTasks.contains(it.taskName) }.forEach {
+
+            builtinTasks.forEach {
                 project.tasks.create(it.taskName, it.java)
             }
 
