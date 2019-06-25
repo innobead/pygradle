@@ -37,7 +37,9 @@ class PythonDependenciesTask : AbstractTask() {
             return
         }
 
-        if(keepBuildCached && project.file("build").exists()){
+        val f = File( "build")
+
+        if(keepBuildCached && f.exists() && f.isDirectory){
             logger.lifecycle("Ignored to install dependencies, because build directory is already present")
             return
         }
