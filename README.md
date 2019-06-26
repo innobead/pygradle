@@ -48,6 +48,9 @@ python {
     pypiRepoUrl = 'https://pypi.python.org/simple/'
     pypiRepoUsername = 'admin'
     pypiRepoPassword = 'admin123'
+    disableGrpc = false // set true to disable Grpc task
+    keepBuildCached = false // set true to skip generation of build directory once already created
+    pythonExecutable = "python" // adjust python executable name
 }
 
 ```
