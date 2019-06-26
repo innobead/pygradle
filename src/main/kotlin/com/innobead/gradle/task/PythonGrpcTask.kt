@@ -28,6 +28,15 @@ class PythonGrpcTask : AbstractTask() {
         project.extensions.pythonPluginExtension.pipOptions
     }
 
+    val grpcVersion by lazy {
+        project.extensions.pythonPluginExtension.grpcVersion
+    }
+
+    val disableGrpc by lazy {
+        project.extensions.pythonPluginExtension.disableGrpc
+    }
+
+
     init {
         group = PythonPlugin.name
         description = "Build gRPC Python client code"
@@ -40,24 +49,28 @@ class PythonGrpcTask : AbstractTask() {
 
     @TaskAction
     fun action() {
-        logger.lifecycle("Building gRPC Python client code based on the proto files from ${protoSourceDirs}")
+        if(disableGrpc){
+            logger.lifecycle("Skipping gRPC task due to the config")
+        } else {
+            logger.lifecycle("Building gRPC Python client code based on the proto files from ${protoSourceDirs}")
 
-        val commands = listOf(
-                "python -m pip install grpcio==1.7.0 grpcio-tools==1.7.0 $pipOptions",
-                "python -m grpc_tools.protoc ${protoSourceDirs!!.map { "-I$it" }.joinToString(" ")} " +
-                        "--python_out=$protoCodeGeneratedDir " +
-                        "--grpc_python_out=$protoCodeGeneratedDir ${protoServiceProtoFiles!!.joinToString(" ")}"
-        )
+            val commands = listOf(
+                    "python -m pip install grpcio==$grpcVersion grpcio-tools==$grpcVersion $pipOptions",
+                    "python -m grpc_tools.protoc ${protoSourceDirs!!.map { "-I$it" }.joinToString(" ")} " +
+                            "--python_out=$protoCodeGeneratedDir " +
+                            "--grpc_python_out=$protoCodeGeneratedDir ${protoServiceProtoFiles!!.joinToString(" ")}"
+            )
 
-        protoCodeGeneratedDir!!.mkdirs()
-        File(protoCodeGeneratedDir, "__init__.py").createNewFile()
+            protoCodeGeneratedDir!!.mkdirs()
+            File(protoCodeGeneratedDir, "__init__.py").createNewFile()
 
-        project.exec {
-            it.isIgnoreExitValue = true
-            it.commandLine(listOf(
-                    "bash", "-c",
-                    "source $virtualenvDir/bin/activate; ${commands.joinToString(";")}"
-            ))
+            project.exec {
+                it.isIgnoreExitValue = true
+                it.commandLine(listOf(
+                        "bash", "-c",
+                        "source $virtualenvDir/bin/activate; ${commands.joinToString(";")}"
+                ))
+            }
         }
     }
 

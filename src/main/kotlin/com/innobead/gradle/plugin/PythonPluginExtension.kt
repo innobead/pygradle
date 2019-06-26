@@ -82,4 +82,8 @@ class PythonPluginExtension(val project: Project) {
 
     var pipOptions: String = ""
 
+    var grpcVersion: String = "1.7.0"
+
+    var disableGrpc:Boolean = false
+
 }
