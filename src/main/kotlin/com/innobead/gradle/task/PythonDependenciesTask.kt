@@ -15,6 +15,10 @@ class PythonDependenciesTask : AbstractTask() {
         project.extensions.pythonPluginExtension.pipOptions
     }
 
+    val keepBuildCached by lazy {
+        project.extensions.pythonPluginExtension.keepBuildCached
+    }
+
     var copyLibsDir: File? = null
 
     init {
@@ -33,7 +37,14 @@ class PythonDependenciesTask : AbstractTask() {
             return
         }
 
-        logger.lifecycle("Installing dependencies in requirements.txt")
+        val f =  File(project.buildDir, ".requirements")
+
+        if(keepBuildCached && f.exists()){
+            logger.lifecycle("Ignored to install dependencies, because requirements flag is set")
+            return
+        }
+
+        logger.lifecycle("Installing dependencies in requirements.txt ${f.exists()} ")
 
         project.exec {
             it.commandLine(listOf(
@@ -63,6 +74,8 @@ class PythonDependenciesTask : AbstractTask() {
                 }
             }
         }
+
+       f.createNewFile()
     }
 
 }
