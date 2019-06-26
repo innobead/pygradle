@@ -73,7 +73,7 @@ class PythonPluginExtension(val project: Project) {
             return dir
         }
 
-    var keepBuildCached:Boolean = false
+    var keepBuildCached: Boolean = false
 
     var pypiRepoUrl: String? = null
 
@@ -85,6 +85,6 @@ class PythonPluginExtension(val project: Project) {
 
     var grpcVersion: String = "1.7.0"
 
-    var disableGrpc:Boolean = false
+    var disableGrpc: Boolean = false
 
 }

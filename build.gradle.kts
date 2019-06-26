@@ -1,14 +1,14 @@
 plugins {
-    kotlin("jvm") version "1.3.21"
+    kotlin("jvm") version "1.3.40"
     `java-gradle-plugin`
     java
     id("com.gradle.plugin-publish") version "0.10.0"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.3.21"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.3.40"
     maven
 }
 
 group = "com.innobead"
-version = "1.3.5"
+version = "1.3.6"
 
 repositories {
     jcenter()
