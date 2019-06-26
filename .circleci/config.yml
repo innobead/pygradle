@@ -19,7 +19,7 @@
      steps:
        - checkout
        - run:
-           name: Publishy
+           name: Publish
            command: |
              make publish
 
