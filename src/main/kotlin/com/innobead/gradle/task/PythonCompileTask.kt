@@ -28,7 +28,7 @@ class PythonCompileTask : AbstractTask() {
 
         logger.lifecycle("Compiling python scripts in source folders ($sourceDirs)")
 
-        val commands = mutableListOf("python -m compileall -f ${sourceDirs.joinToString(" ")}")
+        val commands = mutableListOf("$pythonExecutable -m compileall -f ${sourceDirs.joinToString(" ")}")
         project.exec {
             it.commandLine(listOf(
                     "bash", "-c",
