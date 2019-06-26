@@ -64,8 +64,8 @@ class PythonGrpcTask : AbstractTask() {
             logger.lifecycle("Building gRPC Python client code based on the proto files from ${protoSourceDirs}")
 
             val commands = listOf(
-                    "python -m pip install grpcio==$grpcVersion grpcio-tools==$grpcVersion $pipOptions",
-                    "python -m grpc_tools.protoc ${protoSourceDirs!!.map { "-I$it" }.joinToString(" ")} " +
+                    "$pythonExecutable -m pip install grpcio==$grpcVersion grpcio-tools==$grpcVersion $pipOptions",
+                    "$pythonExecutable -m grpc_tools.protoc ${protoSourceDirs!!.map { "-I$it" }.joinToString(" ")} " +
                             "--python_out=$protoCodeGeneratedDir " +
                             "--grpc_python_out=$protoCodeGeneratedDir ${protoServiceProtoFiles!!.joinToString(" ")}"
             )

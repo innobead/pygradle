@@ -53,14 +53,14 @@ class PythonTestTask : AbstractTask() {
         val commands = mutableListOf<String>()
 
         if (project.file("requirements-test.txt").exists()) {
-            commands.add("python -m pip install -r ${project.file("requirements-test.txt").absolutePath} $pipOptions".trim())
+            commands.add("$pythonExecutable -m pip install -r ${project.file("requirements-test.txt").absolutePath} $pipOptions".trim())
         }
 
         commands.addAll(
                 listOf(
-                        "python -m pip install pytest pytest-cov",
+                        "$pythonExecutable -m pip install pytest pytest-cov",
                         "export PYTHONPATH='${sourceDirs.joinToString(":")}:\$PYTHONPATH'",
-                        "python -m pytest ${testSourceDirs.joinToString(" ")} " +
+                        "$pythonExecutable -m pytest ${testSourceDirs.joinToString(" ")} " +
                                 "--junit-xml=$testReportDir/junit-output.xml " +
                                 "${sourceCovDirs!!.map { "--cov=${it.absolutePath}" }.joinToString(" ")} " +
                                 "--cov-report term-missing " +

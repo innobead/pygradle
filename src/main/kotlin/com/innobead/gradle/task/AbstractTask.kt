@@ -23,6 +23,10 @@ abstract class AbstractTask : DefaultTask() {
         project.extensions.pythonPluginExtension.pythonBuildDir
     }
 
+    val pythonExecutable by lazy {
+        project.extensions.pythonPluginExtension.pythonExecutable
+    }
+
     fun preparePythonEnv(commands: MutableList<String>) {
         commands.clear()
 

@@ -55,7 +55,7 @@ class PythonDependenciesTask : AbstractTask() {
             it.commandLine(listOf(
                     "bash", "-c",
                     "source $virtualenvDir/bin/activate; " +
-                            "python -m pip install -r requirements.txt $pipOptions"
+                            "$pythonExecutable -m pip install -r requirements.txt $pipOptions"
             ))
         }.rethrowFailure()
 
@@ -68,7 +68,7 @@ class PythonDependenciesTask : AbstractTask() {
             it.commandLine(listOf(
                     "bash", "-c",
                     "source $virtualenvDir/bin/activate; " +
-                            "python -m pip install -I --prefix='$libsDir' -r requirements.txt $pipOptions".trim()
+                            "$pythonExecutable -m pip install -I --prefix='$libsDir' -r requirements.txt $pipOptions".trim()
             ))
         }.rethrowFailure()
 
