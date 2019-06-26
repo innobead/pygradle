@@ -87,4 +87,5 @@ class PythonPluginExtension(val project: Project) {
 
     var disableGrpc: Boolean = false
 
+    var pythonExecutable: String = "python"
 }

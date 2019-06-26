@@ -37,7 +37,7 @@ class PythonRuntimeTask : AbstractTask() {
 
                 commands.addAll(listOf(
                         "curl -OL $url",
-                        "python get-pip.py -I --prefix $pythonDir",
+                        "$pythonExecutable get-pip.py -I --prefix $pythonDir",
                         "rm get-pip.py"
                 ))
 
@@ -78,7 +78,7 @@ class PythonRuntimeTask : AbstractTask() {
                 }
                 else -> {
                     commands.addAll(listOf(
-                            "python -m pip install virtualenv -I --prefix $pythonDir $pipOptions".trim()
+                            "$pythonExecutable -m pip install virtualenv -I --prefix $pythonDir $pipOptions".trim()
 
                     ))
 
@@ -128,9 +128,8 @@ class PythonRuntimeTask : AbstractTask() {
             it.standardOutput = NullOutputStream.INSTANCE
             it.errorOutput = NullOutputStream.INSTANCE
             it.args(listOf(
-
                     "-c",
-                    "python -m pip"
+                    "$pythonExecutable -m pip"
             ))
             it.isIgnoreExitValue = true
         }

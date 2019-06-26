@@ -45,7 +45,7 @@ class PythonBuildTask : AbstractTask() {
 
     @TaskAction
     fun action() {
-        val commands = mutableListOf("python -m pip install wheel")
+        val commands = mutableListOf("$pythonExecutable -m pip install wheel")
 
         if (!pythonSetupPyFiles!!.all { it.exists() }) {
             logger.lifecycle("Ignored package build, because setup.py is not found")
@@ -86,7 +86,7 @@ class PythonBuildTask : AbstractTask() {
 
             pythonBuildDir?.deleteRecursively()
 
-            commands.add("python $setupFile $distType --dist-dir=$pythonBuildDir $uploadCommand".trim())
+            commands.add("$pythonExecutable $setupFile $distType --dist-dir=$pythonBuildDir $uploadCommand".trim())
 
             project.exec {
                 it.commandLine(listOf(
