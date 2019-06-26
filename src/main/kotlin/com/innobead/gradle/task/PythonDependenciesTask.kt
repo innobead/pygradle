@@ -37,9 +37,9 @@ class PythonDependenciesTask : AbstractTask() {
             return
         }
 
-        val f =  File(project.buildDir, ".requirements")
+        val f = File(project.buildDir, ".requirements")
 
-        if(keepBuildCached && f.exists()){
+        if (keepBuildCached && f.exists()) {
             logger.lifecycle("Ignored to install dependencies, because requirements flag is set")
             return
         }
@@ -75,7 +75,7 @@ class PythonDependenciesTask : AbstractTask() {
             }
         }
 
-       f.createNewFile()
+        f.createNewFile()
     }
 
 }

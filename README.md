@@ -1,4 +1,4 @@
-[![Travis CI](https://travis-ci.org/innobead/pygradle.svg)](https://travis-ci.org/innobead/pygradle)
+[![CircleCI](https://circleci.com/gh/innobead/pygradle.svg?style=svg)](https://circleci.com/gh/innobead/pygradle)
 
 # Goals
 Create a simple Python Gradle Plugin to compile, build, test and publish Python project in a sandbox. 
@@ -31,7 +31,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.com.innobead:gradle-python-plugin:1.3.5"
+        classpath "gradle.plugin.com.innobead:gradle-python-plugin:1.3.6"
     }
 }
 

@@ -49,7 +49,7 @@ class PythonGrpcTask : AbstractTask() {
 
     @TaskAction
     fun action() {
-        if(disableGrpc){
+        if (disableGrpc) {
             logger.lifecycle("Skipping gRPC task due to the config")
         } else {
             logger.lifecycle("Building gRPC Python client code based on the proto files from ${protoSourceDirs}")
