@@ -6,6 +6,9 @@ import com.innobead.gradle.plugin.pythonPluginExtension
 import com.innobead.gradle.plugin.taskName
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
@@ -17,18 +20,22 @@ class PythonBuildTask : AbstractTask() {
         val distTypeSupports = listOf("sdist", "bdist_wheel", "bdist_wheel --universal")
     }
 
+    @get:InputFiles
     val pythonSetupPyFiles by lazy {
         project.extensions.pythonPluginExtension.pythonSetupPyFiles
     }
 
+    @get:Input
     val pypiRepoUrl by lazy {
         project.extensions.pythonPluginExtension.pypiRepoUrl
     }
 
+    @get:Input
     val pypiRepoUsername by lazy {
         project.extensions.pythonPluginExtension.pypiRepoUsername
     }
 
+    @get:Input
     val pypiRepoPassword by lazy {
         project.extensions.pythonPluginExtension.pypiRepoPassword
     }

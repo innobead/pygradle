@@ -4,6 +4,7 @@ import com.innobead.gradle.GradleSupport
 import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.pythonPluginExtension
 import org.gradle.api.GradleException
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import org.gradle.internal.io.NullOutputStream
 
@@ -11,10 +12,12 @@ import org.gradle.internal.io.NullOutputStream
 @GradleSupport
 class PythonRuntimeTask : AbstractTask() {
 
+    @get:Input
     val pipOptions by lazy {
         project.extensions.pythonPluginExtension.pipOptions
     }
 
+    @get:Input
     val downloadUrls = listOf(
             "https://raw.githubusercontent.com/pypa/get-pip/master/get-pip.py",
             "https://bootstrap.pypa.io/get-pip.py"

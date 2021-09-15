@@ -6,6 +6,8 @@ import com.innobead.gradle.plugin.PythonPluginExtension
 import com.innobead.gradle.plugin.pythonPluginExtension
 import com.innobead.gradle.plugin.taskName
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
@@ -13,10 +15,12 @@ import java.io.File
 @GradleSupport
 class PythonTestTask : AbstractTask() {
 
+    @get:InputFile
     val testReportDir by lazy {
         project.extensions.pythonPluginExtension.testReportDir
     }
 
+    @get:Input
     val pipOptions by lazy {
         project.extensions.pythonPluginExtension.pipOptions
     }
