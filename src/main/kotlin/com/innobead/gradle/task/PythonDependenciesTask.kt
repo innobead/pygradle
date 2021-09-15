@@ -4,6 +4,8 @@ import com.innobead.gradle.GradleSupport
 import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.pythonPluginExtension
 import com.innobead.gradle.plugin.taskName
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
@@ -11,14 +13,17 @@ import java.io.File
 @GradleSupport
 class PythonDependenciesTask : AbstractTask() {
 
+    @get:Input
     val pipOptions by lazy {
         project.extensions.pythonPluginExtension.pipOptions
     }
 
+    @get:Input
     val keepBuildCached by lazy {
         project.extensions.pythonPluginExtension.keepBuildCached
     }
 
+    @get:InputFile
     var copyLibsDir: File? = null
 
     init {

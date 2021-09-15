@@ -5,6 +5,9 @@ import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.pythonPluginExtension
 import com.innobead.gradle.plugin.taskName
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
@@ -12,26 +15,32 @@ import java.io.File
 @GradleSupport
 class PythonGrpcTask : AbstractTask() {
 
+    @get:InputFiles
     val protoSourceDirs by lazy {
         project.extensions.pythonPluginExtension.protoSourceDirs
     }
 
+    @get:InputFiles
     val protoServiceProtoFiles by lazy {
         project.extensions.pythonPluginExtension.protoServiceProtoFiles
     }
 
+    @get:InputFile
     val protoCodeGeneratedDir by lazy {
         project.extensions.pythonPluginExtension.protoCodeGeneratedDir
     }
 
+    @get:Input
     val pipOptions by lazy {
         project.extensions.pythonPluginExtension.pipOptions
     }
 
+    @get:Input
     val grpcVersion by lazy {
         project.extensions.pythonPluginExtension.grpcVersion
     }
 
+    @get:Input
     val disableGrpc by lazy {
         project.extensions.pythonPluginExtension.disableGrpc
     }

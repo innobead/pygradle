@@ -1,34 +1,34 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    kotlin("jvm") version "1.3.40"
+    kotlin("jvm") version "1.5.30"
     `java-gradle-plugin`
-    java
-    id("com.gradle.plugin-publish") version "0.10.0"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.3.40"
-    maven
+    `maven-publish`
+    id("com.gradle.plugin-publish") version "0.16.0"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.5.30"
 }
 
 group = "com.innobead"
-version = "1.3.7"
+version = "1.3.8-SNAPSHOT"
 
 repositories {
-    jcenter()
     mavenLocal()
     mavenCentral()
 }
 
 dependencies {
-    compile(gradleApi())
+    implementation(gradleApi())
 
-    compile(kotlin("stdlib"))
-    compile(kotlin("reflect"))
+    implementation(kotlin("stdlib"))
+    implementation(kotlin("reflect"))
 
-    testCompile(kotlin("test"))
-    testCompile("com.nhaarman:mockito-kotlin:1.4.0")
-    testCompile(kotlin("maven-allopen"))
+    testImplementation(kotlin("test"))
+    testImplementation("com.nhaarman:mockito-kotlin:1.6.0")
+    testImplementation(kotlin("maven-allopen"))
 
-    testRuntime("org.junit.platform:junit-platform-launcher:1.4.0")
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.4.0")
-    testRuntime("org.junit.vintage:junit-vintage-engine:5.4.0")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.4.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.4.0")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.4.0")
 }
 
 allOpen {
@@ -61,6 +61,10 @@ pluginBundle {
         "pythonPlugin" {}
     }
 }
+
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions.apiVersion = "1.4"
+compileKotlin.kotlinOptions.jvmTarget = "11"
 
 afterEvaluate {
     val publishKey = System.getenv("GRADLE_PUBLISH_KEY")
