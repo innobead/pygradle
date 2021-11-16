@@ -3,26 +3,28 @@ package com.innobead.gradle.task
 import com.innobead.gradle.plugin.pythonPluginExtension
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.Optional
 import java.io.File
 
 abstract class AbstractTask : DefaultTask() {
 
-    @get:InputFile
+    @get:InputDirectory
     val virtualenvDir by lazy {
         project.extensions.pythonPluginExtension.virtualenvDir
     }
 
-    @get:InputFile
+    @get:InputDirectory
     val pythonDir by lazy {
         project.extensions.pythonPluginExtension.pythonDir
     }
 
-    @get:InputFile
+    @get:InputDirectory
     val pythonBuildDir by lazy {
         project.extensions.pythonPluginExtension.pythonBuildDir
     }
 
+    @get:Input
     val pythonExecutable by lazy {
         project.extensions.pythonPluginExtension.pythonExecutable
     }
@@ -39,7 +41,8 @@ abstract class AbstractTask : DefaultTask() {
         commands.add("""export PATH="$pythonDir/bin":${'$'}PATH""")
     }
 
-    @InputFile
+    @Optional
+    @InputDirectory
     fun getPythonLibDir(): File? {
         var pythonLibDir: File? = null
 

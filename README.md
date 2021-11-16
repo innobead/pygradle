@@ -9,7 +9,7 @@ Create a simple Python Gradle Plugin to compile, build, test and publish Python 
   * requirements.txt for compile/runtime dependencies
   * requirements-test.txt for test compile/runtime/buildtime dependencies
 * Use Python pytest library to test and do test coverage
-* Build gRPC Python client code (grpc 1.7.0)
+* Build gRPC Python client code (grpc 1.41.0)
 * Clean up pycache files before running tests
 * Be able to publish build to PyPi repository.
 * Support Python 2.* & 3.*
@@ -27,11 +27,11 @@ Two commands are able to use.
 buildscript {
     repositories {
         maven {
-            url "https://plugins.gradle.org/m2/"
+          url "https://plugins.gradle.org/m2/"
         }
     }
     dependencies {
-        classpath "gradle.plugin.com.innobead:gradle-python-plugin:1.3.7"
+        classpath "gradle.plugin.com.innobead:gradle-python-plugin:1.4.0"
     }
 }
 

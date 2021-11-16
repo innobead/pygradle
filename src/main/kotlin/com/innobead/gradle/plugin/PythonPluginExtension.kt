@@ -10,12 +10,22 @@ class PythonPluginExtension(val project: Project) {
 
     var sourceDirs: ConfigurableFileCollection? = null
         get() {
-            return field ?: project.files(File("src"))
+            val dirs = field ?: project.files(File("src"))
+            dirs.forEach {
+                it.mkdirs()
+            }
+
+            return dirs
         }
 
     var testSourceDirs: ConfigurableFileCollection? = null
         get() {
-            return field ?: project.files(File("tests"))
+            val dirs = field ?: project.files(File("tests"))
+            dirs.forEach {
+                it.mkdirs()
+            }
+
+            return dirs
         }
 
     var tmpDir: File? = null
@@ -62,6 +72,14 @@ class PythonPluginExtension(val project: Project) {
         }
 
     var protoSourceDirs: ConfigurableFileCollection? = null
+        get() {
+            val dirs = field ?: project.files(File("protos"))
+            dirs.forEach {
+                it.mkdirs()
+            }
+
+            return dirs
+        }
 
     var protoServiceProtoFiles: ConfigurableFileCollection? = null
 
@@ -83,7 +101,7 @@ class PythonPluginExtension(val project: Project) {
 
     var pipOptions: String = ""
 
-    var grpcVersion: String = "1.7.0"
+    var grpcVersion: String = "1.41.0"
 
     var disableGrpc: Boolean = false
 

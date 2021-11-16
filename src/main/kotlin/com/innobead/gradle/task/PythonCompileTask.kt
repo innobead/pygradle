@@ -3,9 +3,7 @@ package com.innobead.gradle.task
 import com.innobead.gradle.GradleSupport
 import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.PythonPluginExtension
-import com.innobead.gradle.plugin.pythonPluginExtension
 import com.innobead.gradle.plugin.taskName
-import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
 
@@ -30,10 +28,12 @@ class PythonCompileTask : AbstractTask() {
 
         val commands = mutableListOf("$pythonExecutable -m compileall -f ${sourceDirs.joinToString(" ")}")
         project.exec {
-            it.commandLine(listOf(
+            it.commandLine(
+                listOf(
                     "bash", "-c",
                     "source $virtualenvDir/bin/activate; ${commands.joinToString(";")}"
-            ))
+                )
+            )
         }.rethrowFailure()
 
     }

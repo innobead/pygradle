@@ -19,8 +19,8 @@ class PythonRuntimeTask : AbstractTask() {
 
     @get:Input
     val downloadUrls = listOf(
-            "https://raw.githubusercontent.com/pypa/get-pip/master/get-pip.py",
-            "https://bootstrap.pypa.io/get-pip.py"
+        "https://raw.githubusercontent.com/pypa/get-pip/master/get-pip.py",
+        "https://bootstrap.pypa.io/get-pip.py"
     )
 
     init {
@@ -38,11 +38,13 @@ class PythonRuntimeTask : AbstractTask() {
             for (url in downloadUrls) {
                 logger.lifecycle("Installing pip")
 
-                commands.addAll(listOf(
+                commands.addAll(
+                    listOf(
                         "curl -OL $url",
                         "$pythonExecutable get-pip.py -I --prefix $pythonDir",
                         "rm get-pip.py"
-                ))
+                    )
+                )
 
                 logger.debug(commands.joinToString("\n"))
 
@@ -50,10 +52,12 @@ class PythonRuntimeTask : AbstractTask() {
                     it.workingDir(project.extensions.pythonPluginExtension.tmpDir)
                     it.executable("bash")
                     it.environment(System.getenv())
-                    it.args(listOf(
+                    it.args(
+                        listOf(
                             "-c",
                             commands.joinToString(";")
-                    ))
+                        )
+                    )
                     it.isIgnoreExitValue = true
                 }
 
@@ -80,10 +84,12 @@ class PythonRuntimeTask : AbstractTask() {
                     "virtualenv $virtualenvDir"
                 }
                 else -> {
-                    commands.addAll(listOf(
+                    commands.addAll(
+                        listOf(
                             "$pythonExecutable -m pip install virtualenv -I --prefix $pythonDir $pipOptions".trim()
 
-                    ))
+                        )
+                    )
 
                     "$pythonDir/bin/virtualenv $virtualenvDir"
                 }
@@ -97,10 +103,12 @@ class PythonRuntimeTask : AbstractTask() {
             it.workingDir(project.extensions.pythonPluginExtension.tmpDir)
             it.executable("bash")
             it.environment(System.getenv())
-            it.args(listOf(
+            it.args(
+                listOf(
                     "-c",
                     commands.joinToString(";")
-            ))
+                )
+            )
         }.rethrowFailure()
 
         logger.lifecycle("Creating a virtual environment")
@@ -116,10 +124,12 @@ class PythonRuntimeTask : AbstractTask() {
             it.workingDir(project.extensions.pythonPluginExtension.tmpDir)
             it.executable("bash")
             it.environment(System.getenv())
-            it.args(listOf(
+            it.args(
+                listOf(
                     "-c",
                     commands.joinToString(";")
-            ))
+                )
+            )
         }.rethrowFailure()
     }
 
@@ -130,10 +140,12 @@ class PythonRuntimeTask : AbstractTask() {
             it.environment(System.getenv())
             it.standardOutput = NullOutputStream.INSTANCE
             it.errorOutput = NullOutputStream.INSTANCE
-            it.args(listOf(
+            it.args(
+                listOf(
                     "-c",
                     "$pythonExecutable -m pip"
-            ))
+                )
+            )
             it.isIgnoreExitValue = true
         }
 

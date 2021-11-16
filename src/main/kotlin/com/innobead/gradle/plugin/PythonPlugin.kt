@@ -13,14 +13,14 @@ class PythonPlugin : Plugin<Project> {
         val name = "python"
 
         val builtinTasks = listOf(
-                PythonRuntimeTask::class,
-                PythonDependenciesTask::class,
-                PythonCompileTask::class,
-                PythonBuildTask::class,
-                PythonInstallTask::class,
-                PythonTestTask::class,
-                PythonGrpcTask::class,
-                PythonCleanTask::class
+            PythonRuntimeTask::class,
+            PythonDependenciesTask::class,
+            PythonCompileTask::class,
+            PythonBuildTask::class,
+            PythonInstallTask::class,
+            PythonTestTask::class,
+            PythonGrpcTask::class,
+            PythonCleanTask::class
         )
     }
 
@@ -38,8 +38,8 @@ class PythonPlugin : Plugin<Project> {
             afterEvaluate {
                 if (getTasksByName("test", false).isEmpty()) {
                     val testTask = task(
-                            mapOf("description" to "Unit testing"),
-                            "test"
+                        mapOf("description" to "Unit testing"),
+                        "test"
                     ).dependsOn(getTasksByName("pythonTest", false).first())
 
                     getTasksByName("pythonBuild", false).firstOrNull()?.dependsOn(testTask)

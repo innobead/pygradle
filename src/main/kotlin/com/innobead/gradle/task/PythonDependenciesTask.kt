@@ -5,7 +5,8 @@ import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.pythonPluginExtension
 import com.innobead.gradle.plugin.taskName
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
@@ -23,7 +24,8 @@ class PythonDependenciesTask : AbstractTask() {
         project.extensions.pythonPluginExtension.keepBuildCached
     }
 
-    @get:InputFile
+    @Optional
+    @get:InputDirectory
     var copyLibsDir: File? = null
 
     init {
@@ -52,11 +54,13 @@ class PythonDependenciesTask : AbstractTask() {
         logger.lifecycle("Installing dependencies in requirements.txt ${f.exists()} ")
 
         project.exec {
-            it.commandLine(listOf(
+            it.commandLine(
+                listOf(
                     "bash", "-c",
                     "source $virtualenvDir/bin/activate; " +
                             "$pythonExecutable -m pip install -r requirements.txt $pipOptions"
-            ))
+                )
+            )
         }.rethrowFailure()
 
         val libsDir = File(project.buildDir, "libs")
@@ -65,11 +69,13 @@ class PythonDependenciesTask : AbstractTask() {
         logger.lifecycle("Downloading dependencies to $libsDir")
 
         project.exec {
-            it.commandLine(listOf(
+            it.commandLine(
+                listOf(
                     "bash", "-c",
                     "source $virtualenvDir/bin/activate; " +
                             "$pythonExecutable -m pip install -I --prefix='$libsDir' -r requirements.txt $pipOptions".trim()
-            ))
+                )
+            )
         }.rethrowFailure()
 
         if (copyLibsDir != null) {

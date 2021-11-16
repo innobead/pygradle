@@ -1,15 +1,15 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+group = "com.innobead"
+version = "1.4.0"
+
 plugins {
-    kotlin("jvm") version "1.5.30"
+    kotlin("jvm") version "1.5.31"
     `java-gradle-plugin`
     `maven-publish`
-    id("com.gradle.plugin-publish") version "0.16.0"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.5.30"
+    id("com.gradle.plugin-publish") version  "0.16.0"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.5.31"
 }
-
-group = "com.innobead"
-version = "1.3.8-SNAPSHOT"
 
 repositories {
     mavenLocal()

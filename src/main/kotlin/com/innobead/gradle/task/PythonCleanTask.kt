@@ -3,7 +3,6 @@ package com.innobead.gradle.task
 import com.innobead.gradle.GradleSupport
 import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.PythonPluginExtension
-import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
 @GradleSupport
@@ -37,10 +36,12 @@ class PythonCleanTask : AbstractTask() {
 
         val commands = mutableListOf("find ${sourceDirs.joinToString(" ") { "'$it'" }} -name '*.pyc' -delete")
         project.exec {
-            it.commandLine(listOf(
+            it.commandLine(
+                listOf(
                     "bash", "-c",
                     commands.joinToString(";")
-            ))
+                )
+            )
         }.rethrowFailure()
     }
 

@@ -4,10 +4,8 @@ import com.innobead.gradle.GradleSupport
 import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.pythonPluginExtension
 import com.innobead.gradle.plugin.taskName
-import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.TaskAction
 import java.io.File
@@ -76,7 +74,7 @@ class PythonBuildTask : AbstractTask() {
                 File(System.getProperty("user.home"), ".pypirc").apply {
                     logger.lifecycle("Creating ${this.absolutePath}")
                     this.writeText(
-                            """
+                        """
         |[distutils]
         |index-servers=pypi-internal
         |
@@ -84,7 +82,8 @@ class PythonBuildTask : AbstractTask() {
         |repository=$pypiRepoUrl
         |username=$pypiRepoUsername
         |password=$pypiRepoPassword
-""".trimMargin())
+""".trimMargin()
+                    )
                 }
 
                 logger.lifecycle("Publishing package to $pypiRepoUrl")
@@ -96,10 +95,12 @@ class PythonBuildTask : AbstractTask() {
             commands.add("$pythonExecutable $setupFile $distType --dist-dir=$pythonBuildDir $uploadCommand".trim())
 
             project.exec {
-                it.commandLine(listOf(
+                it.commandLine(
+                    listOf(
                         "bash", "-c",
                         "source $virtualenvDir/bin/activate; ${commands.joinToString(";")}"
-                ))
+                    )
+                )
             }.rethrowFailure()
         }
     }

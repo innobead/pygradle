@@ -4,9 +4,8 @@ import com.innobead.gradle.GradleSupport
 import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.pythonPluginExtension
 import com.innobead.gradle.plugin.taskName
-import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.TaskAction
 import java.io.File
@@ -25,7 +24,7 @@ class PythonGrpcTask : AbstractTask() {
         project.extensions.pythonPluginExtension.protoServiceProtoFiles
     }
 
-    @get:InputFile
+    @get:InputDirectory
     val protoCodeGeneratedDir by lazy {
         project.extensions.pythonPluginExtension.protoCodeGeneratedDir
     }
@@ -64,10 +63,10 @@ class PythonGrpcTask : AbstractTask() {
             logger.lifecycle("Building gRPC Python client code based on the proto files from ${protoSourceDirs}")
 
             val commands = listOf(
-                    "$pythonExecutable -m pip install grpcio==$grpcVersion grpcio-tools==$grpcVersion $pipOptions",
-                    "$pythonExecutable -m grpc_tools.protoc ${protoSourceDirs!!.map { "-I$it" }.joinToString(" ")} " +
-                            "--python_out=$protoCodeGeneratedDir " +
-                            "--grpc_python_out=$protoCodeGeneratedDir ${protoServiceProtoFiles!!.joinToString(" ")}"
+                "$pythonExecutable -m pip install grpcio==$grpcVersion grpcio-tools==$grpcVersion $pipOptions",
+                "$pythonExecutable -m grpc_tools.protoc ${protoSourceDirs!!.map { "-I$it" }.joinToString(" ")} " +
+                        "--python_out=$protoCodeGeneratedDir " +
+                        "--grpc_python_out=$protoCodeGeneratedDir ${protoServiceProtoFiles!!.joinToString(" ")}"
             )
 
             protoCodeGeneratedDir!!.mkdirs()
@@ -75,10 +74,12 @@ class PythonGrpcTask : AbstractTask() {
 
             project.exec {
                 it.isIgnoreExitValue = true
-                it.commandLine(listOf(
+                it.commandLine(
+                    listOf(
                         "bash", "-c",
                         "source $virtualenvDir/bin/activate; ${commands.joinToString(";")}"
-                ))
+                    )
+                )
             }
         }
     }

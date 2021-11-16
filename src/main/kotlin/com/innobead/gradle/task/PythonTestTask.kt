@@ -5,9 +5,8 @@ import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.PythonPluginExtension
 import com.innobead.gradle.plugin.pythonPluginExtension
 import com.innobead.gradle.plugin.taskName
-import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
@@ -15,7 +14,7 @@ import java.io.File
 @GradleSupport
 class PythonTestTask : AbstractTask() {
 
-    @get:InputFile
+    @get:InputDirectory
     val testReportDir by lazy {
         project.extensions.pythonPluginExtension.testReportDir
     }
@@ -57,24 +56,26 @@ class PythonTestTask : AbstractTask() {
         }
 
         commands.addAll(
-                listOf(
-                        "$pythonExecutable -m pip install pytest pytest-cov",
-                        "export PYTHONPATH='${sourceDirs.joinToString(":")}:\$PYTHONPATH'",
-                        "$pythonExecutable -m pytest ${testSourceDirs.joinToString(" ")} " +
-                                "--junit-xml=$testReportDir/junit-output.xml " +
-                                "${sourceCovDirs!!.map { "--cov=${it.absolutePath}" }.joinToString(" ")} " +
-                                "--cov-report term-missing " +
-                                "--cov-report html --cov-report xml"
-                )
+            listOf(
+                "$pythonExecutable -m pip install pytest pytest-cov",
+                "export PYTHONPATH='${sourceDirs.joinToString(":")}:\$PYTHONPATH'",
+                "$pythonExecutable -m pytest ${testSourceDirs.joinToString(" ")} " +
+                        "--junit-xml=$testReportDir/junit-output.xml " +
+                        "${sourceCovDirs!!.map { "--cov=${it.absolutePath}" }.joinToString(" ")} " +
+                        "--cov-report term-missing " +
+                        "--cov-report html --cov-report xml"
+            )
         )
 
         project.exec {
             it.isIgnoreExitValue = true
             it.workingDir(testReportDir)
-            it.commandLine(listOf(
+            it.commandLine(
+                listOf(
                     "bash", "-c",
                     "source $virtualenvDir/bin/activate; ${commands.joinToString(";")}"
-            ))
+                )
+            )
         }.rethrowFailure()
     }
 
