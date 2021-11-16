@@ -10,4 +10,4 @@ build: clean
 
 .PHONY: publish
 publish: build
-	echo ./gradlew publishPlugins -Pgradle.publish.key=$(GRADLE_KEY) -Pgradle.publish.secret=$(GRADLE_VALUE)
+	./gradlew publishPlugins -Pgradle.publish.key=$(GRADLE_KEY) -Pgradle.publish.secret=$(GRADLE_VALUE)
