@@ -15,3 +15,6 @@ jobs:
           java-version: '17'
       - uses: actions/checkout@v2
       - run: make publish
+        env:
+          GRADLE_KEY: ${{ secrets.GRADLE_KEY }}
+          GRADLE_VALUE: ${{ secrets.GRADLE_VALUE }}
