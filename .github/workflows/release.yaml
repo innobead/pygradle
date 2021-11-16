@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
+        - v*
 
 jobs:
   build-linux-x86_64:
