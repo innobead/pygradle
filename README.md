@@ -1,5 +1,3 @@
-[![CircleCI](https://circleci.com/gh/innobead/pygradle.svg?style=svg)](https://circleci.com/gh/innobead/pygradle)
-
 # Goals
 Create a simple Python Gradle Plugin to compile, build, test and publish Python project in a sandbox. 
 
