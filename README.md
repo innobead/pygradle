@@ -21,36 +21,51 @@ Two commands are able to use.
 `gradle test`
 
 # Configurations
+
+## build.gradle
 ```groovy
-buildscript {
-    repositories {
-        maven {
-          url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "gradle.plugin.com.innobead:gradle-python-plugin:1.4.0"
-    }
+plugins {
+  id "com.innobead.python" version "1.4.0"
 }
 
-apply plugin: "com.innobead.python"
+python {
+  sourceDirs = files('src')
+  testSourceDirs = files('tests')
+
+  protoSourceDirs = files('proto')
+  protoServiceProtoFiles = files(new File('proto', 'service.proto'))
+  protoCodeGeneratedDir = file('src/proto')
+
+  pypiRepoUrl = 'https://pypi.python.org/simple/'
+  pypiRepoUsername = 'admin'
+  pypiRepoPassword = 'password'
+  disableGrpc = false // set true to disable Grpc task
+  keepBuildCached = false // set true to skip generation of build directory once already created
+  pythonExecutable = "python" // adjust python executable name
+}
+```
+
+## build.gradle.kts
+```kotlin
+plugins {
+    id("com.innobead.python") version "1.4.0"
+}
 
 python {
-    sourceDirs = files('src')
-    testSourceDirs = files('tests')
-    
-    protoSourceDirs = files('proto')
-    protoServiceProtoFiles = files(new File('proto', 'service.proto'))
-    protoCodeGeneratedDir = file('src/proto')
-    
-    pypiRepoUrl = 'https://pypi.python.org/simple/'
-    pypiRepoUsername = 'admin'
-    pypiRepoPassword = 'admin123'
+    sourceDirs = files("src")
+    testSourceDirs = files("tests")
+
+    protoSourceDirs = files("proto")
+    protoServiceProtoFiles = files("proto", "service.proto")
+    protoCodeGeneratedDir = file("src/proto")
+
+    pypiRepoUrl = "https://pypi.python.org/simple/"
+    pypiRepoUsername = "admin"
+    pypiRepoPassword = "password"
     disableGrpc = false // set true to disable Grpc task
     keepBuildCached = false // set true to skip generation of build directory once already created
     pythonExecutable = "python" // adjust python executable name
 }
-
 ```
 
 # References
