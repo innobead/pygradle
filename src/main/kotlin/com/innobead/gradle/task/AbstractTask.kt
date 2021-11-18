@@ -1,6 +1,6 @@
-package io.github.innobead.gradle.task
+package com.innobead.gradle.task
 
-import io.github.innobead.gradle.plugin.pythonPluginExtension
+import com.innobead.gradle.plugin.pythonPluginExtension
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory

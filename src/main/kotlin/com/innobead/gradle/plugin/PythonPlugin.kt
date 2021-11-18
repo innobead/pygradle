@@ -1,7 +1,7 @@
-package io.github.innobead.gradle.plugin
+package com.innobead.gradle.plugin
 
-import io.github.innobead.gradle.GradleSupport
-import io.github.innobead.gradle.task.*
+import com.innobead.gradle.GradleSupport
+import com.innobead.gradle.task.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-group = "io.github.innobead"
-version = "1.4.1"
+group = "com.innobead"
+version = "1.4.0"
 
 plugins {
     kotlin("jvm") version "1.5.31"
@@ -32,7 +32,7 @@ dependencies {
 }
 
 allOpen {
-    annotation("io.github.innobead.gradle.GradleSupport")
+    annotation("com.innobead.gradle.GradleSupport")
 }
 
 tasks {
@@ -47,7 +47,7 @@ gradlePlugin {
             id = "$group.python"
             displayName = "pygradle, Python plugin"
             description = "A Python plugin for building, testing, dependency management and popular frameworks (gRPC, protobuf, ...) supported"
-            implementationClass = "io.github.innobead.gradle.plugin.PythonPlugin"
+            implementationClass = "com.innobead.gradle.plugin.PythonPlugin"
         }
     }
 }
