@@ -1,4 +1,4 @@
-package com.innobead.gradle.plugin
+package io.github.innobead.gradle.plugin
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.plugins.ExtensionContainer

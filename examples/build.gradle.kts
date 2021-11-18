@@ -1,5 +1,5 @@
 plugins {
-    id("com.innobead.python") version "1.4.0"
+    id("io.github.innobead.python") version "1.4.1"
 }
 
 python {

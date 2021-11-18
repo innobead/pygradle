@@ -1,8 +1,8 @@
-package com.innobead.gradle.task
+package io.github.innobead.gradle.task
 
-import com.innobead.gradle.GradleSupport
-import com.innobead.gradle.plugin.PythonPlugin
-import com.innobead.gradle.plugin.PythonPluginExtension
+import io.github.innobead.gradle.GradleSupport
+import io.github.innobead.gradle.plugin.PythonPlugin
+import io.github.innobead.gradle.plugin.PythonPluginExtension
 import org.gradle.api.tasks.TaskAction
 
 @GradleSupport

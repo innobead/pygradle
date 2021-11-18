@@ -1,6 +1,6 @@
-package com.innobead.gradle.plugin
+package io.github.innobead.gradle.plugin
 
-import com.innobead.gradle.GradleSupport
+import io.github.innobead.gradle.GradleSupport
 import org.gradle.api.Project
 import org.gradle.api.file.ConfigurableFileCollection
 import java.io.File

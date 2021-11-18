@@ -1,4 +1,4 @@
-package com.innobead.gradle
+package io.github.innobead.gradle
 
 @Target(
     AnnotationTarget.CLASS,
