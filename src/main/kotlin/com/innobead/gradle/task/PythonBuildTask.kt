@@ -7,6 +7,7 @@ import com.innobead.gradle.plugin.taskName
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
@@ -24,16 +25,19 @@ class PythonBuildTask : AbstractTask() {
     }
 
     @get:Input
+    @get:Optional
     val pypiRepoUrl by lazy {
         project.extensions.pythonPluginExtension.pypiRepoUrl
     }
 
     @get:Input
+    @get:Optional
     val pypiRepoUsername by lazy {
         project.extensions.pythonPluginExtension.pypiRepoUsername
     }
 
     @get:Input
+    @get:Optional
     val pypiRepoPassword by lazy {
         project.extensions.pythonPluginExtension.pypiRepoPassword
     }
