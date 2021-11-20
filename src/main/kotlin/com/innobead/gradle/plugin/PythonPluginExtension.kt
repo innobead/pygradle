@@ -82,6 +82,7 @@ class PythonPluginExtension(val project: Project) {
         }
 
     var protoServiceProtoFiles: ConfigurableFileCollection? = null
+        get() = field ?: project.files()
 
     var protoCodeGeneratedDir: File? = null
         get() {

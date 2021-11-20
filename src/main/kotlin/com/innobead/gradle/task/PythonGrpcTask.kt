@@ -5,8 +5,8 @@ import com.innobead.gradle.plugin.PythonPlugin
 import com.innobead.gradle.plugin.pythonPluginExtension
 import com.innobead.gradle.plugin.taskName
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
@@ -24,7 +24,7 @@ class PythonGrpcTask : AbstractTask() {
         project.extensions.pythonPluginExtension.protoServiceProtoFiles
     }
 
-    @get:InputDirectory
+    @get:OutputDirectory
     val protoCodeGeneratedDir by lazy {
         project.extensions.pythonPluginExtension.protoCodeGeneratedDir
     }
@@ -60,13 +60,13 @@ class PythonGrpcTask : AbstractTask() {
         if (disableGrpc) {
             logger.lifecycle("Skipping gRPC task due to the config")
         } else {
-            logger.lifecycle("Building gRPC Python client code based on the proto files from ${protoSourceDirs}")
+            logger.lifecycle("Building gRPC Python client code based on the proto files from $protoSourceDirs")
 
             val commands = listOf(
                 "$pythonExecutable -m pip install grpcio==$grpcVersion grpcio-tools==$grpcVersion $pipOptions",
-                "$pythonExecutable -m grpc_tools.protoc ${protoSourceDirs!!.map { "-I$it" }.joinToString(" ")} " +
+                "$pythonExecutable -m grpc_tools.protoc ${protoSourceDirs!!.joinToString(" ") { "-I$it" }} " +
                         "--python_out=$protoCodeGeneratedDir " +
-                        "--grpc_python_out=$protoCodeGeneratedDir ${protoServiceProtoFiles!!.joinToString(" ")}"
+                        "--grpc_python_out=$protoCodeGeneratedDir ${protoServiceProtoFiles?.joinToString(" ")}"
             )
 
             protoCodeGeneratedDir!!.mkdirs()

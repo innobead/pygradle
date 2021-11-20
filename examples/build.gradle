@@ -6,7 +6,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath files('../build/libs/gradle-python-plugin-1.4.0.jar')
+        classpath files('../build/libs/gradle-python-plugin-1.4.1.jar')
     }
 }
 
@@ -14,7 +14,7 @@ apply plugin: "com.innobead.python"
 */
 
 plugins {
-    id "com.innobead.python" version "1.4.0"
+    id "com.innobead.python" version "1.4.1"
 }
 
 python {

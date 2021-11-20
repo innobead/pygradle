@@ -25,7 +25,7 @@ Two commands are able to use.
 ## build.gradle
 ```groovy
 plugins {
-  id "com.innobead.python" version "1.4.0"
+  id "com.innobead.python" version "1.4.1"
 }
 
 python {
@@ -48,7 +48,7 @@ python {
 ## build.gradle.kts
 ```kotlin
 plugins {
-    id("com.innobead.python") version "1.4.0"
+    id("com.innobead.python") version "1.4.1"
 }
 
 python {
