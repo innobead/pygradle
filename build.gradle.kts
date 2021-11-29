@@ -16,6 +16,10 @@ repositories {
     mavenCentral()
 }
 
+java {
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
 dependencies {
     implementation(gradleApi())
 
