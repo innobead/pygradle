@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "com.innobead"
-version = "1.4.1"
+version = "1.4.2"
 
 plugins {
     kotlin("jvm") version "1.5.31"
